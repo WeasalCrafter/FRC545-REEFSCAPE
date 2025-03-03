@@ -69,11 +69,8 @@ public final class Constants
     public static final double MIN_SPEED = -0.15; // TODO
 
     public static final double INTAKE_SPEED = 0.1; // TODO
-<<<<<<< HEAD
-=======
     public static final double TOLERANCE = 0.5;
     public static final int HALL_EFFECT_PIN = 0;
->>>>>>> 7708ac7 (sunday)
   }
 
   public static class ArmConstants {
@@ -89,11 +86,8 @@ public final class Constants
     public static final PIDConstants PID_CONSTANTS = new PIDConstants(0.04,0,0,0); // TODO
     public static final double MAX_SPEED = 0.15; // TODO
     public static final double MIN_SPEED = -0.15; // TODO
-<<<<<<< HEAD
-=======
 
     public static final double TOLERANCE = 0.5;
->>>>>>> 7708ac7 (sunday)
   } 
 
   public static class ClimberConstants {
