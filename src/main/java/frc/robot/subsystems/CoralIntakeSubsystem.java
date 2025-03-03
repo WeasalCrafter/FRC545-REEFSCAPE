@@ -32,14 +32,17 @@ public class CoralIntakeSubsystem extends SubsystemBase{
 
         followerMotorConfig = new SparkMaxConfig();
         followerMotorConfig
-        .inverted(true)
-        .follow(ElevatorConstants.INTAKE_LEADER_ID);
+        .follow(ElevatorConstants.INTAKE_LEADER_ID, true);
 
         m_follower.configure(followerMotorConfig, ResetMode.kResetSafeParameters, PersistMode.kNoPersistParameters);
     }
 
     public void changeSpeed(Double targetSpeed){
         m_leader.set(targetSpeed);
+    }
+
+    public boolean getLimit(){
+        return hallEffect.get();
     }
 
     public Command forward(){

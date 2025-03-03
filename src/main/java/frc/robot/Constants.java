@@ -78,14 +78,14 @@ public final class Constants
     public static final int INTAKE_LEADER_ID = 31;
     public static final int INTAKE_FOLLOWER_ID = 32;  
 
-    public static final double POS_UP = 0; // TODO
-    public static final double POS_DOWN = 15; // TODO
+    public static final double POS_UP = -5;
+    public static final double POS_DOWN = 4;
 
     public static final double INTAKE_SPEED = 0.1; // TODO
 
-    public static final PIDConstants PID_CONSTANTS = new PIDConstants(0.04,0,0,0); // TODO
-    public static final double MAX_SPEED = 0.15; // TODO
-    public static final double MIN_SPEED = -0.15; // TODO
+    public static final PIDConstants PID_CONSTANTS = new PIDConstants(0.25,0,0,0);
+    public static final double MAX_SPEED = 0.2; // TODO
+    public static final double MIN_SPEED = -0.2; // TODO
 
     public static final double TOLERANCE = 0.5;
   } 

@@ -28,8 +28,7 @@ public class AlgaeIntakeSubsystem extends SubsystemBase{
 
         followerMotorConfig = new SparkMaxConfig();
         followerMotorConfig
-        .inverted(true)
-        .follow(ArmConstants.INTAKE_LEADER_ID);
+        .follow(ArmConstants.INTAKE_LEADER_ID, true);
 
         m_follower.configure(followerMotorConfig, ResetMode.kResetSafeParameters, PersistMode.kNoPersistParameters);
     }
