@@ -81,18 +81,18 @@ public final class Constants
     public static final double POS_UP = -5;
     public static final double POS_DOWN = 4;
 
-    public static final double INTAKE_SPEED = 0.1; // TODO
+    public static final double INTAKE_SPEED = 0.1;
 
     public static final PIDConstants PID_CONSTANTS = new PIDConstants(0.25,0,0,0);
-    public static final double MAX_SPEED = 0.2; // TODO
-    public static final double MIN_SPEED = -0.2; // TODO
+    public static final double MAX_SPEED = 0.1;
+    public static final double MIN_SPEED = -0.1;
 
     public static final double TOLERANCE = 0.5;
   } 
 
   public static class ClimberConstants {
     public static final int CLIMEBR_MOTOR_ID = 40;
-    public static final double MOTOR_SPEED = 0.1; // TODO
+    public static final double MOTOR_SPEED = 0.1;
 
     public static final double FORWARD_LIMIT = 10; // TODO
     public static final double REVERSE_LIMIT = -10; // TODO
