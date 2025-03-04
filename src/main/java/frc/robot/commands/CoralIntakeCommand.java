@@ -1,7 +1,7 @@
 package frc.robot.commands;
 
 import edu.wpi.first.wpilibj2.command.Command;
-import frc.robot.Constants.ElevatorConstants;
+import frc.robot.Constants.CoralIntakeConstants;
 import frc.robot.subsystems.CoralIntakeSubsystem;
 
 public class CoralIntakeCommand extends Command{
@@ -15,7 +15,7 @@ public class CoralIntakeCommand extends Command{
 
     @Override
     public void initialize(){
-        coralIntake.changeSpeed(ElevatorConstants.INTAKE_SPEED);
+        coralIntake.changeSpeed(CoralIntakeConstants.SPEED);
     }
 
     @Override

@@ -8,7 +8,7 @@ import com.revrobotics.spark.config.SparkMaxConfig;
 
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
-import frc.robot.Constants.ArmConstants;
+import frc.robot.Constants.AlgaeIntakeConstants;
 
 public class AlgaeIntakeSubsystem extends SubsystemBase{
     public SparkMax m_leader; 
@@ -18,8 +18,8 @@ public class AlgaeIntakeSubsystem extends SubsystemBase{
     public SparkMaxConfig followerMotorConfig;
 
     public AlgaeIntakeSubsystem(){
-        m_leader = new SparkMax(ArmConstants.INTAKE_LEADER_ID, MotorType.kBrushless);
-        m_follower = new SparkMax(ArmConstants.INTAKE_FOLLOWER_ID, MotorType.kBrushless);
+        m_leader = new SparkMax(AlgaeIntakeConstants.LEADER, MotorType.kBrushless);
+        m_follower = new SparkMax(AlgaeIntakeConstants.FOLLOWER, MotorType.kBrushless);
         
         leaderMotorConfig = new SparkMaxConfig();
         leaderMotorConfig
@@ -28,7 +28,7 @@ public class AlgaeIntakeSubsystem extends SubsystemBase{
 
         followerMotorConfig = new SparkMaxConfig();
         followerMotorConfig
-        .follow(ArmConstants.INTAKE_LEADER_ID, true);
+        .follow(AlgaeIntakeConstants.LEADER, true);
 
         m_follower.configure(followerMotorConfig, ResetMode.kResetSafeParameters, PersistMode.kNoPersistParameters);
     }
@@ -38,11 +38,11 @@ public class AlgaeIntakeSubsystem extends SubsystemBase{
     }
 
     public Command forward(){
-        return this.runOnce(() -> changeSpeed(ArmConstants.INTAKE_SPEED));
+        return this.runOnce(() -> changeSpeed(AlgaeIntakeConstants.SPEED));
     }
     
     public Command reverse(){
-        return this.runOnce(() -> changeSpeed(-ArmConstants.INTAKE_SPEED));
+        return this.runOnce(() -> changeSpeed(-AlgaeIntakeConstants.SPEED));
     }
     
     public Command lock(){

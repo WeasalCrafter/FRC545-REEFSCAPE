@@ -28,7 +28,7 @@ public class ArmSubsystem extends SubsystemBase{
   public AbsoluteEncoder m_encoder;
 
   public ArmSubsystem() {
-    m_pivot = new SparkMax(ArmConstants.PIVOT_MOTOR_ID, MotorType.kBrushless);
+    m_pivot = new SparkMax(ArmConstants.PIVOT, MotorType.kBrushless);
     m_encoder = m_pivot.getAbsoluteEncoder();
 
     pivotController = m_pivot.getClosedLoopController();

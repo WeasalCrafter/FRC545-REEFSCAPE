@@ -4,7 +4,6 @@
 
 package frc.robot;
 
-import com.fasterxml.jackson.databind.util.Named;
 import com.pathplanner.lib.auto.NamedCommands;
 import edu.wpi.first.math.MathUtil;
 import edu.wpi.first.wpilibj.DriverStation;
@@ -22,7 +21,7 @@ import frc.robot.commands.ElevatorPositionCommand;
 import frc.robot.commands.swervedrive.drivebase.AbsoluteDriveAdv;
 import frc.robot.subsystems.AlgaeIntakeSubsystem;
 import frc.robot.subsystems.ArmSubsystem;
-import frc.robot.subsystems.ClimberSubsystem;
+// import frc.robot.subsystems.ClimberSubsystem;
 import frc.robot.subsystems.ElevatorSubsystem;
 import frc.robot.subsystems.CoralIntakeSubsystem;
 import frc.robot.subsystems.swervedrive.SwerveSubsystem;
@@ -39,7 +38,7 @@ public class RobotContainer
   private final ArmSubsystem arm = new ArmSubsystem();
   private final CoralIntakeSubsystem coralIntake = new CoralIntakeSubsystem();
   private final AlgaeIntakeSubsystem algaeIntake = new AlgaeIntakeSubsystem();
-  private final ClimberSubsystem climber = new ClimberSubsystem();
+  // private final ClimberSubsystem climber = new ClimberSubsystem();
 
   // Applies deadbands and inverts controls because joysticks
   // are back-right positive while robot
@@ -155,7 +154,7 @@ public class RobotContainer
                                 driveFieldOrientedAnglularVelocity :
                                 driveFieldOrientedAnglularVelocitySim);
 
-    climber.setDefaultCommand(climber.freezeClimber());
+    // climber.setDefaultCommand(climber.freezeClimber());
 
     driverXbox.rightTrigger().onTrue(NamedCommands.getCommand("coralIntakeForward")).onFalse(NamedCommands.getCommand("coralIntakeLock"));
     driverXbox.rightBumper().onTrue(NamedCommands.getCommand("coralIntakeReverse")).onFalse(NamedCommands.getCommand("coralIntakeLock"));
@@ -197,9 +196,9 @@ public class RobotContainer
     return elevator;
   }
 
-  public ClimberSubsystem getClimber(){
-    return climber;
-  }
+  // public ClimberSubsystem getClimber(){
+  //   return climber;
+  // }
 
   public ArmSubsystem getArm(){
     return arm;

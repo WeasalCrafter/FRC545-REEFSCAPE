@@ -9,7 +9,7 @@ import com.revrobotics.spark.config.SparkMaxConfig;
 import edu.wpi.first.wpilibj.DigitalInput;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
-import frc.robot.Constants.ElevatorConstants;
+import frc.robot.Constants.CoralIntakeConstants;
 
 public class CoralIntakeSubsystem extends SubsystemBase{
     public SparkMax m_leader; 
@@ -21,9 +21,9 @@ public class CoralIntakeSubsystem extends SubsystemBase{
     public DigitalInput hallEffect;
 
     public CoralIntakeSubsystem(){
-        m_leader = new SparkMax(ElevatorConstants.INTAKE_LEADER_ID, MotorType.kBrushless);
-        m_follower = new SparkMax(ElevatorConstants.INTAKE_FOLLOWER_ID, MotorType.kBrushless);
-        hallEffect = new DigitalInput(ElevatorConstants.HALL_EFFECT_PIN);
+        m_leader = new SparkMax(CoralIntakeConstants.LEADER, MotorType.kBrushless);
+        m_follower = new SparkMax(CoralIntakeConstants.FOLLOWER, MotorType.kBrushless);
+        hallEffect = new DigitalInput(CoralIntakeConstants.LIMIT);
         
         leaderMotorConfig = new SparkMaxConfig();
         leaderMotorConfig
@@ -32,7 +32,7 @@ public class CoralIntakeSubsystem extends SubsystemBase{
 
         followerMotorConfig = new SparkMaxConfig();
         followerMotorConfig
-        .follow(ElevatorConstants.INTAKE_LEADER_ID, true);
+        .follow(CoralIntakeConstants.LEADER, true);
 
         m_follower.configure(followerMotorConfig, ResetMode.kResetSafeParameters, PersistMode.kNoPersistParameters);
     }
@@ -46,11 +46,11 @@ public class CoralIntakeSubsystem extends SubsystemBase{
     }
 
     public Command forward(){
-        return this.runOnce(() -> changeSpeed(ElevatorConstants.INTAKE_SPEED));
+        return this.runOnce(() -> changeSpeed(CoralIntakeConstants.SPEED));
     }
     
     public Command reverse(){
-        return this.runOnce(() -> changeSpeed(-ElevatorConstants.INTAKE_SPEED));
+        return this.runOnce(() -> changeSpeed(-CoralIntakeConstants.SPEED));
     }
     
     public Command lock(){
