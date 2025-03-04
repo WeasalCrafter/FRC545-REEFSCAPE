@@ -22,10 +22,8 @@ import edu.wpi.first.networktables.NetworkTablesJNI;
 import edu.wpi.first.wpilibj.Alert;
 import edu.wpi.first.wpilibj.Alert.AlertType;
 import edu.wpi.first.wpilibj.smartdashboard.Field2d;
-import frc.robot.Constants;
-import frc.robot.Robot;
 import frc.robot.Constants.VisionConstants;
-
+import frc.robot.Robot;
 import java.awt.Desktop;
 import java.util.ArrayList;
 import java.util.List;
@@ -185,6 +183,7 @@ public class Vision
     return poseEst;
   }
 
+
   /**
    * Filter pose via the ambiguity and find best estimate between all of the camera's throwing out distances more than
    * 10m for a short amount of time.
@@ -337,7 +336,10 @@ public class Vision
    */
   enum Cameras
   {
-    MAIN_CAM(
+    /**
+     * Left Camera
+     */
+    CENTER_CAM(
       VisionConstants.MAIN_CAM_NAME,
       VisionConstants.MAIN_CAM_ROTATION,
       VisionConstants.MAIN_CAM_TRANSLATION,
@@ -375,7 +377,7 @@ public class Vision
     /**
      * Estimated robot pose.
      */
-    public Optional<EstimatedRobotPose> estimatedRobotPose = Optional.empty();
+    public        Optional<EstimatedRobotPose> estimatedRobotPose = Optional.empty();
 
     /**
      * Simulated camera instance which only exists during simulations.

@@ -44,16 +44,16 @@ public final class Constants
   public static class VisionConstants
   {
     // https://external-content.duckduckgo.com/iu/?u=https%3A%2F%2Fwww.best-microcontroller-projects.com%2Fimage-files%2Faircraft-roll-pitch-yaw-xyz-enh.jpg&f=1&nofb=1&ipt=ac25795fcd02d469477e44fc513971b36be4609b831093f83e534bd2a382961d&ipo=images
-    public static final String MAIN_CAM_NAME = "LimelightCam";
+    public static final String MAIN_CAM_NAME = "Camera_Module_v1";
     public static final Rotation3d MAIN_CAM_ROTATION = new Rotation3d(
       0,  // Roll
-      Units.degreesToRadians(18), // Pitch
+      Units.degreesToRadians(50), // Pitch
       0 // Yaw
     );
     public static final Translation3d MAIN_CAM_TRANSLATION = new Translation3d(
-      Units.inchesToMeters(-4.628),       // X
-      Units.inchesToMeters(-10.687),      // Y
-      Units.inchesToMeters(16.129) // Z
+      Units.inchesToMeters(15),       // X
+      Units.inchesToMeters(3),      // Y
+      Units.inchesToMeters(5) // Z
     );
   }
 
