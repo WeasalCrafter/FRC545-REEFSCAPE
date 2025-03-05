@@ -167,10 +167,10 @@ public class RobotContainer
     driverXbox.pov(180).onTrue(NamedCommands.getCommand("elevatorPos3"));
     driverXbox.pov(270).onTrue(NamedCommands.getCommand("elevatorPos4"));
 
-    // driverXbox.a().onTrue(NamedCommands.getCommand("armPosUp"));
-    // driverXbox.b().onTrue(NamedCommands.getCommand("armPosDown"));
+    driverXbox.a().onTrue(NamedCommands.getCommand("armPosUp"));
+    driverXbox.b().onTrue(NamedCommands.getCommand("armPosDown"));
 
-    driverXbox.a().onTrue(NamedCommands.getCommand("coralIntakeWithLimit"));
+    // driverXbox.a().onTrue(NamedCommands.getCommand("coralIntakeWithLimit"));
 
     driverXbox.y().onTrue((Commands.runOnce(drivebase::zeroGyro)));
     driverXbox.x().whileTrue(Commands.runOnce(drivebase::lock, drivebase).repeatedly());
@@ -184,7 +184,7 @@ public class RobotContainer
   public Command getAutonomousCommand()
   {
     // An example command will be run in autonomous
-    return drivebase.getAutonomousCommand("New Auto");
+    return drivebase.getAutonomousCommand("mid");
   }
 
   public void setMotorBrake(boolean brake)
