@@ -105,6 +105,9 @@ public final class Constants
     public static final int FOLLOWER = 23;
     public static final double SPEED = 0.1;
     public static final int LIMIT = 0;
+
+    public static final int LASER_CAN = 24;
+    public static final double THRESHOLD_MM = 0;  // TODO
   }
 
   public static class AlgaeIntakeConstants
@@ -117,6 +120,8 @@ public final class Constants
   public static class ClimberConstants 
   {
     public static final int CLIMBER = 40;
+    public static final int CLIMBER2 = 41; // TOOD
+    
     public static final double SPEED = 0.1;
 
     public static final double FORWARD_LIMIT = 10; // TODO

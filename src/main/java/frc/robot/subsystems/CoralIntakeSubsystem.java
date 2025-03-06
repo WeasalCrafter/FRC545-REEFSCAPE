@@ -6,6 +6,12 @@ import com.revrobotics.spark.SparkLowLevel.MotorType;
 import com.revrobotics.spark.SparkMax;
 import com.revrobotics.spark.config.SparkMaxConfig;
 
+import au.grapplerobotics.ConfigurationFailedException;
+import au.grapplerobotics.LaserCan;
+import au.grapplerobotics.interfaces.LaserCanInterface.Measurement;
+import au.grapplerobotics.interfaces.LaserCanInterface.RangingMode;
+import au.grapplerobotics.interfaces.LaserCanInterface.RegionOfInterest;
+import au.grapplerobotics.interfaces.LaserCanInterface.TimingBudget;
 import edu.wpi.first.wpilibj.DigitalInput;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
@@ -19,12 +25,22 @@ public class CoralIntakeSubsystem extends SubsystemBase{
     public SparkMaxConfig followerMotorConfig;
 
     public DigitalInput hallEffect;
+    public LaserCan laserCan;
 
     public CoralIntakeSubsystem(){
         m_leader = new SparkMax(CoralIntakeConstants.LEADER, MotorType.kBrushless);
         m_follower = new SparkMax(CoralIntakeConstants.FOLLOWER, MotorType.kBrushless);
         hallEffect = new DigitalInput(CoralIntakeConstants.LIMIT);
-        
+        laserCan = new LaserCan(CoralIntakeConstants.LASER_CAN);
+
+        try {
+            laserCan.setRangingMode(RangingMode.SHORT);
+            laserCan.setRegionOfInterest(new RegionOfInterest(8, 8, 6, 6)); // center(x,y), scale(w,h)
+            laserCan.setTimingBudget(TimingBudget.TIMING_BUDGET_33MS);
+        } catch (ConfigurationFailedException e) {
+            System.out.println("Configuration failed! " + e);
+        }
+
         leaderMotorConfig = new SparkMaxConfig();
         leaderMotorConfig
         .inverted(false);
@@ -35,6 +51,13 @@ public class CoralIntakeSubsystem extends SubsystemBase{
         .follow(CoralIntakeConstants.LEADER, true);
 
         m_follower.configure(followerMotorConfig, ResetMode.kResetSafeParameters, PersistMode.kNoPersistParameters);
+    }
+
+    @Override
+    public void periodic(){
+        Measurement measurement = laserCan.getMeasurement();
+        System.out.println(measurement.distance_mm);
+        System.out.println((measurement.distance_mm <= CoralIntakeConstants.THRESHOLD_MM));
     }
 
     public void changeSpeed(Double targetSpeed){
