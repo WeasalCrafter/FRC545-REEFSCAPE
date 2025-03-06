@@ -11,6 +11,7 @@ import com.revrobotics.spark.SparkMax;
 import com.revrobotics.spark.config.SparkMaxConfig;
 import com.revrobotics.spark.config.ClosedLoopConfig.FeedbackSensor;
 
+import edu.wpi.first.math.controller.ElevatorFeedforward;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.Constants.ElevatorConstants;
 
@@ -26,6 +27,7 @@ public class ElevatorSubsystem extends SubsystemBase{
   public SparkMaxConfig followerMotorConfig;
 
   public SparkClosedLoopController closedLoopController;
+  private final ElevatorFeedforward elevatorFF = new ElevatorFeedforward(0.6, 1, 0); // Tune these values     
 
   public ElevatorSubsystem() {
     m_leader = new SparkMax(ElevatorConstants.LEADER, MotorType.kBrushless);
@@ -44,6 +46,7 @@ public class ElevatorSubsystem extends SubsystemBase{
       .i(ElevatorConstants.PID_CONSTANTS.kI)
       .d(ElevatorConstants.PID_CONSTANTS.kD)
       .outputRange(ElevatorConstants.MIN_SPEED, ElevatorConstants.MAX_SPEED);
+    
     m_leader.configure(leaderMotorConfig, ResetMode.kResetSafeParameters, PersistMode.kNoPersistParameters);
 
     followerMotorConfig
@@ -54,7 +57,11 @@ public class ElevatorSubsystem extends SubsystemBase{
   }
 
   public void setPosition(Double targetPosition){
-      closedLoopController.setReference(targetPosition, ControlType.kPosition, ClosedLoopSlot.kSlot0);
+      double ffOutput = elevatorFF.calculate(0);
+      if (targetPosition < getPosition()) {
+        ffOutput += 0.1; 
+      }
+      closedLoopController.setReference(targetPosition, ControlType.kPosition, ClosedLoopSlot.kSlot0,ffOutput);
   }
 
   public double getPosition(){

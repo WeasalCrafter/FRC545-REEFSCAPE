@@ -39,6 +39,24 @@
         {
           "type": "named",
           "data": {
+            "name": "algaeIntakeReverse"
+          }
+        },
+        {
+          "type": "wait",
+          "data": {
+            "waitTime": 2.0
+          }
+        },
+        {
+          "type": "named",
+          "data": {
+            "name": "algaeIntakeLock"
+          }
+        },
+        {
+          "type": "named",
+          "data": {
             "name": "coralIntakeForward"
           }
         },
@@ -55,21 +73,9 @@
           }
         },
         {
-          "type": "named",
+          "type": "path",
           "data": {
-            "name": "algaeIntakeReverse"
-          }
-        },
-        {
-          "type": "wait",
-          "data": {
-            "waitTime": 2.0
-          }
-        },
-        {
-          "type": "named",
-          "data": {
-            "name": "algaeIntakeLock"
+            "pathName": "midToHuman"
           }
         }
       ]

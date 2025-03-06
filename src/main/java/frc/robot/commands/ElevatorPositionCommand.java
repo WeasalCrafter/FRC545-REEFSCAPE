@@ -21,6 +21,7 @@ public class ElevatorPositionCommand extends Command{
 
     @Override
     public boolean isFinished() {
+        System.out.println(elevator.getPosition());
         return ((elevator.getPosition() >= (targetPosition - ElevatorConstants.TOLERANCE)) && (elevator.getPosition() <= (targetPosition + ElevatorConstants.TOLERANCE)));
     }
 }

@@ -29,7 +29,6 @@ public final class Constants
 
   public static final class AutonConstants
   {
-
     public static final PIDConstants TRANSLATION_PID = new PIDConstants(0.7, 0, 0);
     public static final PIDConstants ANGLE_PID       = new PIDConstants(0.4, 0, 0.01);
   }
@@ -72,31 +71,32 @@ public final class Constants
     public static final int FOLLOWER = 21;
 
     public static final double POS_ZERO = 0;
-    public static final double POS_ONE = 5;
-    public static final double POS_TWO = 10;
-    public static final double POS_THREE = 15;
-    public static final double POS_FOUR = 20;
+    public static final double POS_ONE = 0;
+    public static final double POS_TWO = 5;
+    public static final double POS_THREE = 13.5;
+    public static final double POS_FOUR = 28; // TODO 
 
-    public static final PIDConstants PID_CONSTANTS = new PIDConstants(0.015,0,0,0);
+    public static final PIDConstants PID_CONSTANTS = new PIDConstants(0.125,0.0,0.5);
 
-    public static final double MAX_SPEED = 0.15;
-    public static final double MIN_SPEED = -0.15;
+    public static final double MAX_SPEED = 0.2;
+    public static final double MIN_SPEED = -0.1;
 
-    public static final double TOLERANCE = 0.5;
+    public static final double TOLERANCE = 0.1;
   }
 
   public static class ArmConstants
   {
     public static final int PIVOT = 30;
 
-    public static final double POS_UP = -5;
-    public static final double POS_DOWN = 4;
+    public static final double POS_UP = 6.5;
+    public static final double POS_MID = -21;
+    public static final double POS_DOWN = 32;
 
-    public static final PIDConstants PID_CONSTANTS = new PIDConstants(0.25,0,0,0);
+    public static final PIDConstants PID_CONSTANTS = new PIDConstants(0.03,0,0.03,0);
     public static final double MAX_SPEED = 0.1;
     public static final double MIN_SPEED = -0.1;
 
-    public static final double TOLERANCE = 0.5;
+    public static final double TOLERANCE = 0.1;
   } 
 
   public static class CoralIntakeConstants

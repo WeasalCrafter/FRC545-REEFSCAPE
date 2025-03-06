@@ -63,8 +63,8 @@ public class RobotContainer
    * Converts driver input into a field-relative ChassisSpeeds that is controlled by angular velocity.
    */
   SwerveInputStream driveAngularVelocity = SwerveInputStream.of(drivebase.getSwerveDrive(),
-                                                                () -> driverXbox.getLeftY() * -1,
-                                                                () -> driverXbox.getLeftX() * -1)
+                                                                () -> driverXbox.getLeftY() * 1,
+                                                                () -> driverXbox.getLeftX() * 1)
                                                             .withControllerRotationAxis(driverXbox::getRightX)
                                                             .deadband(OperatorConstants.DEADBAND)
                                                             .scaleTranslation(0.8)
@@ -132,6 +132,7 @@ public class RobotContainer
     NamedCommands.registerCommand("elevatorPos4", new ElevatorPositionCommand(elevator, ElevatorConstants.POS_FOUR));
 
     NamedCommands.registerCommand("armPosUp", new ArmPositionCommand(arm, ArmConstants.POS_UP));
+    NamedCommands.registerCommand("armPosMid", new ArmPositionCommand(arm, ArmConstants.POS_MID));
     NamedCommands.registerCommand("armPosDown", new ArmPositionCommand(arm, ArmConstants.POS_DOWN));
 
     NamedCommands.registerCommand("coralIntakeWithLimit", new CoralIntakeCommand(coralIntake).andThen(coralIntake.lock()));
@@ -184,7 +185,7 @@ public class RobotContainer
   public Command getAutonomousCommand()
   {
     // An example command will be run in autonomous
-    return drivebase.getAutonomousCommand("mid");
+    return drivebase.getAutonomousCommand("testing");
   }
 
   public void setMotorBrake(boolean brake)
