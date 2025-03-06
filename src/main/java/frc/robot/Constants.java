@@ -74,14 +74,14 @@ public final class Constants
     public static final double POS_ONE = 0;
     public static final double POS_TWO = 5;
     public static final double POS_THREE = 13.5;
-    public static final double POS_FOUR = 28; // TODO 
+    public static final double POS_FOUR = 28;
 
     public static final PIDConstants PID_CONSTANTS = new PIDConstants(0.125,0.0,0.5);
 
     public static final double MAX_SPEED = 0.2;
     public static final double MIN_SPEED = -0.1;
 
-    public static final double TOLERANCE = 0.1;
+    public static final double TOLERANCE = 0.25; // TODO
   }
 
   public static class ArmConstants
@@ -96,14 +96,14 @@ public final class Constants
     public static final double MAX_SPEED = 0.1;
     public static final double MIN_SPEED = -0.1;
 
-    public static final double TOLERANCE = 0.1;
+    public static final double TOLERANCE = 0.25; // TODO
   } 
 
   public static class CoralIntakeConstants
   {
     public static final int LEADER = 22;
     public static final int FOLLOWER = 23;
-    public static final double SPEED = 0.1;
+    public static final double SPEED = 0.2; // TODO
     public static final int LIMIT = 0;
 
     public static final int LASER_CAN = 24;
@@ -114,7 +114,7 @@ public final class Constants
   {
     public static final int LEADER = 31;
     public static final int FOLLOWER = 32;  
-    public static final double SPEED = 0.1;
+    public static final double SPEED = 0.2; // TODO
   }
 
   public static class ClimberConstants 

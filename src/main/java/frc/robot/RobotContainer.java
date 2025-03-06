@@ -4,6 +4,7 @@
 
 package frc.robot;
 
+import com.fasterxml.jackson.databind.util.Named;
 import com.pathplanner.lib.auto.NamedCommands;
 import edu.wpi.first.math.MathUtil;
 import edu.wpi.first.wpilibj.DriverStation;
@@ -11,6 +12,9 @@ import edu.wpi.first.wpilibj.Filesystem;
 import edu.wpi.first.wpilibj.RobotBase;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.Commands;
+import edu.wpi.first.wpilibj2.command.SequentialCommandGroup;
+import edu.wpi.first.wpilibj2.command.WaitCommand;
+import edu.wpi.first.wpilibj2.command.WaitUntilCommand;
 import edu.wpi.first.wpilibj2.command.button.CommandXboxController;
 import frc.robot.Constants.ArmConstants;
 import frc.robot.Constants.ElevatorConstants;
@@ -113,10 +117,32 @@ public class RobotContainer
                                                                      .headingWhile(true);
 
   Command driveFieldOrientedDirectAngleSim = drivebase.driveFieldOriented(driveDirectAngleSim);
-
   Command driveFieldOrientedAnglularVelocitySim = drivebase.driveFieldOriented(driveAngularVelocitySim);
-
   Command driveSetpointGenSim = drivebase.driveWithSetpointGeneratorFieldRelative(driveDirectAngleSim);
+
+
+  // Other than when the elevator is at its down position the arm should always be upwards, and 
+  // for now lets add a 2 second delay between the arm reaching its point and the elevator moving.
+  SequentialCommandGroup positionOne = new SequentialCommandGroup(
+    new ArmPositionCommand(arm, ArmConstants.POS_UP),
+    new WaitCommand(2), // TODO
+    new ElevatorPositionCommand(elevator, ElevatorConstants.POS_ONE)
+  );
+  SequentialCommandGroup positionTwo = new SequentialCommandGroup(
+    new ArmPositionCommand(arm, ArmConstants.POS_UP),
+    new WaitCommand(2), // TODO
+    new ElevatorPositionCommand(elevator, ElevatorConstants.POS_TWO)
+  );
+  SequentialCommandGroup positionThree = new SequentialCommandGroup(
+    new ArmPositionCommand(arm, ArmConstants.POS_UP),
+    new WaitCommand(2), // TODO
+    new ElevatorPositionCommand(elevator, ElevatorConstants.POS_THREE)
+  );
+  SequentialCommandGroup positionFour = new SequentialCommandGroup(
+    new ArmPositionCommand(arm, ArmConstants.POS_UP),
+    new WaitCommand(2), // TODO
+    new ElevatorPositionCommand(elevator, ElevatorConstants.POS_FOUR)
+  );
 
 
   public RobotContainer()
@@ -163,15 +189,20 @@ public class RobotContainer
     driverXbox.leftTrigger().onTrue(NamedCommands.getCommand("algaeIntakeForward")).onFalse(NamedCommands.getCommand("algaeIntakeLock"));
     driverXbox.leftBumper().onTrue(NamedCommands.getCommand("algaeIntakeReverse")).onFalse(NamedCommands.getCommand("algaeIntakeLock"));
 
-    driverXbox.pov(0).onTrue(NamedCommands.getCommand("elevatorPos1"));
-    driverXbox.pov(90).onTrue(NamedCommands.getCommand("elevatorPos2"));
-    driverXbox.pov(180).onTrue(NamedCommands.getCommand("elevatorPos3"));
-    driverXbox.pov(270).onTrue(NamedCommands.getCommand("elevatorPos4"));
+    // driverXbox.pov(0).onTrue(NamedCommands.getCommand("elevatorPos1"));
+    // driverXbox.pov(90).onTrue(NamedCommands.getCommand("elevatorPos2"));
+    // driverXbox.pov(180).onTrue(NamedCommands.getCommand("elevatorPos3"));
+    // driverXbox.pov(270).onTrue(NamedCommands.getCommand("elevatorPos4"));
 
-    driverXbox.a().onTrue(NamedCommands.getCommand("armPosUp"));
-    driverXbox.b().onTrue(NamedCommands.getCommand("armPosDown"));
+    driverXbox.pov(0).onTrue(positionOne);
+    driverXbox.pov(90).onTrue(positionTwo);
+    driverXbox.pov(180).onTrue(positionThree);
+    driverXbox.pov(270).onTrue(positionFour);
 
-    // driverXbox.a().onTrue(NamedCommands.getCommand("coralIntakeWithLimit"));
+    // driverXbox.a().onTrue(NamedCommands.getCommand("armPosUp"));
+    // driverXbox.b().onTrue(NamedCommands.getCommand("armPosDown"));
+
+    driverXbox.a().onTrue(NamedCommands.getCommand("coralIntakeWithLimit"));
 
     driverXbox.y().onTrue((Commands.runOnce(drivebase::zeroGyro)));
     driverXbox.x().whileTrue(Commands.runOnce(drivebase::lock, drivebase).repeatedly());

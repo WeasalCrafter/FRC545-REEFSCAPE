@@ -21,6 +21,14 @@ public class ArmPositionCommand extends Command{
 
     @Override
     public boolean isFinished() {
-        return ((arm.getPosition() >= (targetPosition - ArmConstants.TOLERANCE)) && (arm.getPosition() <= (targetPosition + ArmConstants.TOLERANCE)));
+        double currentPosition = arm.getPosition();
+        double difference = Math.abs((targetPosition - currentPosition));
+
+        System.out.printf("arm targetPos: ",targetPosition);
+        System.out.printf("arm currentPos: ",currentPosition);
+        System.out.printf("arm difference: ",difference);
+        System.out.printf("arm tolerance: ",ArmConstants.TOLERANCE);
+
+        return ArmConstants.TOLERANCE >= difference;
     }
 }

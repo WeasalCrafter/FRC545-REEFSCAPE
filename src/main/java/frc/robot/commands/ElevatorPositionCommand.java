@@ -19,9 +19,22 @@ public class ElevatorPositionCommand extends Command{
         elevator.setPosition(targetPosition);
     }
 
+    // @Override
+    // public boolean isFinished() {
+    //     System.out.println(elevator.getPosition());
+    //     return ((elevator.getPosition() >= (targetPosition - ElevatorConstants.TOLERANCE)) && (elevator.getPosition() <= (targetPosition + ElevatorConstants.TOLERANCE)));
+    // }
+
     @Override
     public boolean isFinished() {
-        System.out.println(elevator.getPosition());
-        return ((elevator.getPosition() >= (targetPosition - ElevatorConstants.TOLERANCE)) && (elevator.getPosition() <= (targetPosition + ElevatorConstants.TOLERANCE)));
+        double currentPosition = elevator.getPosition();
+        double difference = Math.abs((targetPosition - currentPosition));
+
+        System.out.printf("elevator targetPos: ",targetPosition);
+        System.out.printf("elevator currentPos: ",currentPosition);
+        System.out.printf("elevator difference: ",difference);
+        System.out.printf("elevator tolerance: ",ElevatorConstants.TOLERANCE);
+
+        return ElevatorConstants.TOLERANCE >= difference;
     }
 }

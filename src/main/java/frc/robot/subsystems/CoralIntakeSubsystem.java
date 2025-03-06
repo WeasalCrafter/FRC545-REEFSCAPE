@@ -53,12 +53,12 @@ public class CoralIntakeSubsystem extends SubsystemBase{
         m_follower.configure(followerMotorConfig, ResetMode.kResetSafeParameters, PersistMode.kNoPersistParameters);
     }
 
-    @Override
-    public void periodic(){
-        Measurement measurement = laserCan.getMeasurement();
-        System.out.println(measurement.distance_mm);
-        System.out.println((measurement.distance_mm <= CoralIntakeConstants.THRESHOLD_MM));
-    }
+    // @Override
+    // public void periodic(){
+    //     Measurement measurement = laserCan.getMeasurement();
+    //     System.out.println(measurement.distance_mm);
+    //     System.out.println((measurement.distance_mm <= CoralIntakeConstants.THRESHOLD_MM));
+    // }
 
     public void changeSpeed(Double targetSpeed){
         m_leader.set(targetSpeed);
