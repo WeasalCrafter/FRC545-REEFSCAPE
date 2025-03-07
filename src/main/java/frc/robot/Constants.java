@@ -70,8 +70,8 @@ public final class Constants
     public static final int LEADER = 20;
     public static final int FOLLOWER = 21;
 
-    public static final double POS_ZERO = 0;
-    public static final double POS_ONE = 0;
+    public static final double POS_ZERO = 1.5;
+    public static final double POS_ONE = 1.5;
     public static final double POS_TWO = 5;
     public static final double POS_THREE = 13.5;
     public static final double POS_FOUR = 28;

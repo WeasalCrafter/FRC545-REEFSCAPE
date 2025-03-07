@@ -33,11 +33,11 @@ public class ElevatorPositionCommand extends Command{
         // System.out.printf("elevator targetPos: ",targetPosition);
         // System.out.printf("elevator currentPos: ",currentPosition);
         
-        System.out.println(" ");
-        System.out.println("target: " + targetPosition);
-        System.out.println("current: " + currentPosition);
-        System.out.println("diff: " + difference);
-        System.err.println(" ");
+        // System.out.println(" ");
+        // System.out.println("target: " + targetPosition);
+        // System.out.println("current: " + currentPosition);
+        // System.out.println("diff: " + difference);
+        // System.err.println(" ");
 
         // System.out.printf("elevator tolerance: ",ElevatorConstants.TOLERANCE);
 
