@@ -35,6 +35,7 @@ import swervelib.SwerveInputStream;
 public class RobotContainer
 {
   final CommandXboxController driverXbox = new CommandXboxController(0);
+  final CommandXboxController operatorXbox = new CommandXboxController(1);
 
   // Subsystem delclarations
   private final SwerveSubsystem drivebase  = new SwerveSubsystem(new File(Filesystem.getDeployDirectory(),"swerve/545"));                                                                                
@@ -167,17 +168,17 @@ public class RobotContainer
     NamedCommands.registerCommand("algaeIntakeLock", algaeIntake.lock());
 
     // Configure the trigger bindings
-    configureBindings();
+    
+    // configureBindingsDebug();
+    configureDriverAndOperator();
   }
 
-  private void configureBindings()
+  private void configureBindingsDebug()
   {
     // (Condition) ? Return-On-True : Return-on-False
     drivebase.setDefaultCommand(!RobotBase.isSimulation() ?
                                 driveFieldOrientedAnglularVelocity :
                                 driveFieldOrientedAnglularVelocitySim);
-
-    // climber.setDefaultCommand(climber.freezeClimber());
 
     driverXbox.rightTrigger().onTrue(NamedCommands.getCommand("coralIntakeForward")).onFalse(NamedCommands.getCommand("coralIntakeLock"));
     driverXbox.rightBumper().onTrue(NamedCommands.getCommand("coralIntakeReverse")).onFalse(NamedCommands.getCommand("coralIntakeLock"));
@@ -185,27 +186,39 @@ public class RobotContainer
     driverXbox.leftTrigger().onTrue(NamedCommands.getCommand("algaeIntakeForward")).onFalse(NamedCommands.getCommand("algaeIntakeLock"));
     driverXbox.leftBumper().onTrue(NamedCommands.getCommand("algaeIntakeReverse")).onFalse(NamedCommands.getCommand("algaeIntakeLock"));
 
-    // driverXbox.a().onTrue(NamedCommands.getCommand("elevatorPos1"));
-    // driverXbox.b().onTrue(NamedCommands.getCommand("elevatorPos2"));
-
-    // driverXbox.pov(0).onTrue(NamedCommands.getCommand("elevatorPos1"));
-    // driverXbox.pov(90).onTrue(NamedCommands.getCommand("elevatorPos2"));
-    // driverXbox.pov(180).onTrue(NamedCommands.getCommand("elevatorPos3"));
-    // driverXbox.pov(270).onTrue(NamedCommands.getCommand("elevatorPos4"));
-
     driverXbox.pov(0).onTrue(positionOne);
     driverXbox.pov(90).onTrue(positionTwo);
     driverXbox.pov(180).onTrue(positionThree);
     driverXbox.pov(270).onTrue(positionFour);
 
-    //driverXbox.a().onTrue(NamedCommands.getCommand("armPosUp"));
-    //driverXbox.b().onTrue(NamedCommands.getCommand("armPosDown"));
-
-    //driverXbox.y().onTrue(NamedCommands.getCommand("elevatorPos1"));
     driverXbox.a().onTrue(NamedCommands.getCommand("coralIntakeWithLimit"));
 
     driverXbox.y().onTrue((Commands.runOnce(drivebase::zeroGyro)));
     driverXbox.x().whileTrue(Commands.runOnce(drivebase::lock, drivebase).repeatedly());
+  }
+
+  private void configureDriverAndOperator(){
+    drivebase.setDefaultCommand(!RobotBase.isSimulation() ?
+                                driveFieldOrientedAnglularVelocity :
+                                driveFieldOrientedAnglularVelocitySim);
+
+    // Driver Controls
+    driverXbox.y().onTrue((Commands.runOnce(drivebase::zeroGyro)));
+    driverXbox.x().whileTrue(Commands.runOnce(drivebase::lock, drivebase).repeatedly());
+
+    // Operator Controls
+    operatorXbox.a().onTrue(NamedCommands.getCommand("coralIntakeWithLimit"));
+    operatorXbox.x().whileTrue(Commands.runOnce(drivebase::lock, drivebase).repeatedly());
+
+    operatorXbox.pov(0).onTrue(positionOne);
+    operatorXbox.pov(90).onTrue(positionTwo);
+    operatorXbox.pov(180).onTrue(positionThree);
+    operatorXbox.pov(270).onTrue(positionFour);
+
+    operatorXbox.rightTrigger().onTrue(NamedCommands.getCommand("coralIntakeForward")).onFalse(NamedCommands.getCommand("coralIntakeLock"));
+    operatorXbox.rightBumper().onTrue(NamedCommands.getCommand("coralIntakeReverse")).onFalse(NamedCommands.getCommand("coralIntakeLock"));
+    operatorXbox.leftTrigger().onTrue(NamedCommands.getCommand("algaeIntakeForward")).onFalse(NamedCommands.getCommand("algaeIntakeLock"));
+    operatorXbox.leftBumper().onTrue(NamedCommands.getCommand("algaeIntakeReverse")).onFalse(NamedCommands.getCommand("algaeIntakeLock"));
   }
 
   /**
