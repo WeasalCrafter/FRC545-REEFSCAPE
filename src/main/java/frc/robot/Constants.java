@@ -29,7 +29,7 @@ public final class Constants
 
   public static final class AutonConstants
   {
-    public static final PIDConstants TRANSLATION_PID = new PIDConstants(0.7, 0, 0);
+    public static final PIDConstants TRANSLATION_PID = new PIDConstants(0.1, 0, 0);
     public static final PIDConstants ANGLE_PID       = new PIDConstants(0.4, 0, 0.01);
   }
 
@@ -46,12 +46,12 @@ public final class Constants
     public static final String MAIN_CAM_NAME = "Camera_Module_v1";
     public static final Rotation3d MAIN_CAM_ROTATION = new Rotation3d(
       0,  // Roll
-      Units.degreesToRadians(50), // Pitch
+      Units.degreesToRadians(0), // Pitch
       0 // Yaw
     );
     public static final Translation3d MAIN_CAM_TRANSLATION = new Translation3d(
       Units.inchesToMeters(15),       // X
-      Units.inchesToMeters(3),      // Y
+      Units.inchesToMeters(0),      // Y
       Units.inchesToMeters(5) // Z
     );
   }
@@ -76,12 +76,12 @@ public final class Constants
     public static final double POS_THREE = 13.5;
     public static final double POS_FOUR = 28;
 
-    public static final PIDConstants PID_CONSTANTS = new PIDConstants(0.125,0.0,0.5);
+    public static final PIDConstants PID_CONSTANTS = new PIDConstants(0.2,0.0,0.5);
 
     public static final double MAX_SPEED = 0.2;
     public static final double MIN_SPEED = -0.1;
 
-    public static final double TOLERANCE = 1;
+    public static final double TOLERANCE = 2;
   }
 
   public static class ArmConstants
@@ -90,13 +90,13 @@ public final class Constants
 
     public static final double POS_UP = -5;
     // public static final double POS_MID = -21;
-    public static final double POS_DOWN = 38;
+    public static final double POS_DOWN = 40;
 
     public static final PIDConstants PID_CONSTANTS = new PIDConstants(0.03,0,0.03,0);
     public static final double MAX_SPEED = 0.1;
     public static final double MIN_SPEED = -0.1;
 
-    public static final double TOLERANCE = 2;
+    public static final double TOLERANCE = 4;
   } 
 
   public static class CoralIntakeConstants

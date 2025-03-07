@@ -205,9 +205,11 @@ public class RobotContainer
     // Driver Controls
     driverXbox.y().onTrue((Commands.runOnce(drivebase::zeroGyro)));
     driverXbox.x().whileTrue(Commands.runOnce(drivebase::lock, drivebase).repeatedly());
+    driverXbox.a().onTrue(NamedCommands.getCommand("coralIntakeWithLimit"));
+    driverXbox.rightBumper().onTrue(NamedCommands.getCommand("coralIntakeReverse")).onFalse(NamedCommands.getCommand("coralIntakeLock"));
+    driverXbox.rightTrigger().onTrue(NamedCommands.getCommand("coralIntakeForward")).onFalse(NamedCommands.getCommand("coralIntakeLock"));
 
     // Operator Controls
-    operatorXbox.a().onTrue(NamedCommands.getCommand("coralIntakeWithLimit"));
     operatorXbox.x().whileTrue(Commands.runOnce(drivebase::lock, drivebase).repeatedly());
 
     operatorXbox.pov(0).onTrue(positionOne);
@@ -215,8 +217,6 @@ public class RobotContainer
     operatorXbox.pov(180).onTrue(positionThree);
     operatorXbox.pov(270).onTrue(positionFour);
 
-    operatorXbox.rightTrigger().onTrue(NamedCommands.getCommand("coralIntakeForward")).onFalse(NamedCommands.getCommand("coralIntakeLock"));
-    operatorXbox.rightBumper().onTrue(NamedCommands.getCommand("coralIntakeReverse")).onFalse(NamedCommands.getCommand("coralIntakeLock"));
     operatorXbox.leftTrigger().onTrue(NamedCommands.getCommand("algaeIntakeForward")).onFalse(NamedCommands.getCommand("algaeIntakeLock"));
     operatorXbox.leftBumper().onTrue(NamedCommands.getCommand("algaeIntakeReverse")).onFalse(NamedCommands.getCommand("algaeIntakeLock"));
   }
