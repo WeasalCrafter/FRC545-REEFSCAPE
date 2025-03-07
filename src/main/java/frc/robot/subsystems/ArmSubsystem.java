@@ -1,6 +1,7 @@
 package frc.robot.subsystems;
 
 import com.revrobotics.AbsoluteEncoder;
+import com.revrobotics.RelativeEncoder;
 import com.revrobotics.spark.ClosedLoopSlot;
 import com.revrobotics.spark.SparkBase.ControlType;
 import com.revrobotics.spark.SparkBase.PersistMode;
@@ -25,11 +26,11 @@ public class ArmSubsystem extends SubsystemBase{
   public SparkMaxConfig pivotConfig;
 
   public SparkClosedLoopController pivotController;
-  public AbsoluteEncoder m_encoder;
+  public RelativeEncoder m_encoder;
 
   public ArmSubsystem() {
     m_pivot = new SparkMax(ArmConstants.PIVOT, MotorType.kBrushless);
-    m_encoder = m_pivot.getAbsoluteEncoder();
+    m_encoder = m_pivot.getEncoder();
 
     pivotController = m_pivot.getClosedLoopController();
     pivotConfig = new SparkMaxConfig();

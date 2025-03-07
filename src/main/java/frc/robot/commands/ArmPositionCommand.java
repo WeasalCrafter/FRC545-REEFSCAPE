@@ -2,6 +2,7 @@ package frc.robot.commands;
 
 import edu.wpi.first.wpilibj2.command.Command;
 import frc.robot.Constants.ArmConstants;
+import frc.robot.Constants.ElevatorConstants;
 import frc.robot.subsystems.ArmSubsystem;
 
 public class ArmPositionCommand extends Command{
@@ -24,11 +25,17 @@ public class ArmPositionCommand extends Command{
         double currentPosition = arm.getPosition();
         double difference = Math.abs((targetPosition - currentPosition));
 
-        System.out.printf("arm targetPos: ",targetPosition);
-        System.out.printf("arm currentPos: ",currentPosition);
-        System.out.printf("arm difference: ",difference);
-        System.out.printf("arm tolerance: ",ArmConstants.TOLERANCE);
+        // System.out.printf("elevator targetPos: ",targetPosition);
+        // System.out.printf("elevator currentPos: ",currentPosition);
+        
+        System.out.println(" ");
+        System.out.println("target: " + targetPosition);
+        System.out.println("current: " + currentPosition);
+        System.out.println("diff: " + difference);
+        System.err.println(" ");
 
-        return ArmConstants.TOLERANCE >= difference;
+        // System.out.printf("elevator tolerance: ",ElevatorConstants.TOLERANCE);
+
+        return difference <= ArmConstants.TOLERANCE;
     }
 }

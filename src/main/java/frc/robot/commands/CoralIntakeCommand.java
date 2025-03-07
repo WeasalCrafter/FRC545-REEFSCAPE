@@ -21,7 +21,6 @@ public class CoralIntakeCommand extends Command{
     @Override
     public boolean isFinished() {
         System.out.println(coralIntake.laserCan.getMeasurement().distance_mm);
-        
-        return !coralIntake.getLimit();
+        return (10 >= coralIntake.laserCan.getMeasurement().distance_mm);
     }
 }

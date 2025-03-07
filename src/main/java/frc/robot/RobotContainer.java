@@ -125,23 +125,19 @@ public class RobotContainer
   // for now lets add a 2 second delay between the arm reaching its point and the elevator moving.
   SequentialCommandGroup positionOne = new SequentialCommandGroup(
     new ArmPositionCommand(arm, ArmConstants.POS_UP),
-    new WaitCommand(2), // TODO
     new ElevatorPositionCommand(elevator, ElevatorConstants.POS_ONE)
   );
   SequentialCommandGroup positionTwo = new SequentialCommandGroup(
-    new ArmPositionCommand(arm, ArmConstants.POS_UP),
-    new WaitCommand(2), // TODO
-    new ElevatorPositionCommand(elevator, ElevatorConstants.POS_TWO)
+    new ElevatorPositionCommand(elevator, ElevatorConstants.POS_TWO),
+    new ArmPositionCommand(arm, ArmConstants.POS_DOWN)
   );
   SequentialCommandGroup positionThree = new SequentialCommandGroup(
-    new ArmPositionCommand(arm, ArmConstants.POS_UP),
-    new WaitCommand(2), // TODO
-    new ElevatorPositionCommand(elevator, ElevatorConstants.POS_THREE)
+    new ElevatorPositionCommand(elevator, ElevatorConstants.POS_THREE),
+    new ArmPositionCommand(arm, ArmConstants.POS_DOWN)
   );
   SequentialCommandGroup positionFour = new SequentialCommandGroup(
-    new ArmPositionCommand(arm, ArmConstants.POS_UP),
-    new WaitCommand(2), // TODO
-    new ElevatorPositionCommand(elevator, ElevatorConstants.POS_FOUR)
+    new ElevatorPositionCommand(elevator, ElevatorConstants.POS_FOUR),
+    new ArmPositionCommand(arm, ArmConstants.POS_DOWN)
   );
 
 
@@ -158,7 +154,7 @@ public class RobotContainer
     NamedCommands.registerCommand("elevatorPos4", new ElevatorPositionCommand(elevator, ElevatorConstants.POS_FOUR));
 
     NamedCommands.registerCommand("armPosUp", new ArmPositionCommand(arm, ArmConstants.POS_UP));
-    NamedCommands.registerCommand("armPosMid", new ArmPositionCommand(arm, ArmConstants.POS_MID));
+    // NamedCommands.registerCommand("armPosMid", new ArmPositionCommand(arm, ArmConstants.POS_MID));
     NamedCommands.registerCommand("armPosDown", new ArmPositionCommand(arm, ArmConstants.POS_DOWN));
 
     NamedCommands.registerCommand("coralIntakeWithLimit", new CoralIntakeCommand(coralIntake).andThen(coralIntake.lock()));
@@ -189,6 +185,9 @@ public class RobotContainer
     driverXbox.leftTrigger().onTrue(NamedCommands.getCommand("algaeIntakeForward")).onFalse(NamedCommands.getCommand("algaeIntakeLock"));
     driverXbox.leftBumper().onTrue(NamedCommands.getCommand("algaeIntakeReverse")).onFalse(NamedCommands.getCommand("algaeIntakeLock"));
 
+    // driverXbox.a().onTrue(NamedCommands.getCommand("elevatorPos1"));
+    // driverXbox.b().onTrue(NamedCommands.getCommand("elevatorPos2"));
+
     // driverXbox.pov(0).onTrue(NamedCommands.getCommand("elevatorPos1"));
     // driverXbox.pov(90).onTrue(NamedCommands.getCommand("elevatorPos2"));
     // driverXbox.pov(180).onTrue(NamedCommands.getCommand("elevatorPos3"));
@@ -199,9 +198,10 @@ public class RobotContainer
     driverXbox.pov(180).onTrue(positionThree);
     driverXbox.pov(270).onTrue(positionFour);
 
-    // driverXbox.a().onTrue(NamedCommands.getCommand("armPosUp"));
-    // driverXbox.b().onTrue(NamedCommands.getCommand("armPosDown"));
+    //driverXbox.a().onTrue(NamedCommands.getCommand("armPosUp"));
+    //driverXbox.b().onTrue(NamedCommands.getCommand("armPosDown"));
 
+    //driverXbox.y().onTrue(NamedCommands.getCommand("elevatorPos1"));
     driverXbox.a().onTrue(NamedCommands.getCommand("coralIntakeWithLimit"));
 
     driverXbox.y().onTrue((Commands.runOnce(drivebase::zeroGyro)));

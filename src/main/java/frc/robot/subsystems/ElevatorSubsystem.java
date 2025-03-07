@@ -1,6 +1,7 @@
 package frc.robot.subsystems;
 
 import com.revrobotics.AbsoluteEncoder;
+import com.revrobotics.RelativeEncoder;
 import com.revrobotics.spark.ClosedLoopSlot;
 import com.revrobotics.spark.SparkBase.ControlType;
 import com.revrobotics.spark.SparkBase.PersistMode;
@@ -21,7 +22,7 @@ public class ElevatorSubsystem extends SubsystemBase{
   public SparkMax m_leader; 
   public SparkMax m_follower;
 
-  public AbsoluteEncoder m_encoder;
+  public RelativeEncoder m_encoder;
 
   public SparkMaxConfig leaderMotorConfig;
   public SparkMaxConfig followerMotorConfig;
@@ -32,7 +33,7 @@ public class ElevatorSubsystem extends SubsystemBase{
   public ElevatorSubsystem() {
     m_leader = new SparkMax(ElevatorConstants.LEADER, MotorType.kBrushless);
     m_follower = new SparkMax(ElevatorConstants.FOLLOWER, MotorType.kBrushless);
-    m_encoder = m_leader.getAbsoluteEncoder();
+    m_encoder = m_leader.getEncoder();
     followerMotorConfig = new SparkMaxConfig();
     leaderMotorConfig = new SparkMaxConfig();
 

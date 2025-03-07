@@ -81,29 +81,29 @@ public final class Constants
     public static final double MAX_SPEED = 0.2;
     public static final double MIN_SPEED = -0.1;
 
-    public static final double TOLERANCE = 0.25; // TODO
+    public static final double TOLERANCE = 1;
   }
 
   public static class ArmConstants
   {
     public static final int PIVOT = 30;
 
-    public static final double POS_UP = 6.5;
-    public static final double POS_MID = -21;
-    public static final double POS_DOWN = 32;
+    public static final double POS_UP = -5;
+    // public static final double POS_MID = -21;
+    public static final double POS_DOWN = 38;
 
     public static final PIDConstants PID_CONSTANTS = new PIDConstants(0.03,0,0.03,0);
     public static final double MAX_SPEED = 0.1;
     public static final double MIN_SPEED = -0.1;
 
-    public static final double TOLERANCE = 0.25; // TODO
+    public static final double TOLERANCE = 2;
   } 
 
   public static class CoralIntakeConstants
   {
     public static final int LEADER = 22;
     public static final int FOLLOWER = 23;
-    public static final double SPEED = 0.2; // TODO
+    public static final double SPEED = 0.15; 
     public static final int LIMIT = 0;
 
     public static final int LASER_CAN = 24;

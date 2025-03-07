@@ -30,11 +30,17 @@ public class ElevatorPositionCommand extends Command{
         double currentPosition = elevator.getPosition();
         double difference = Math.abs((targetPosition - currentPosition));
 
-        System.out.printf("elevator targetPos: ",targetPosition);
-        System.out.printf("elevator currentPos: ",currentPosition);
-        System.out.printf("elevator difference: ",difference);
-        System.out.printf("elevator tolerance: ",ElevatorConstants.TOLERANCE);
+        // System.out.printf("elevator targetPos: ",targetPosition);
+        // System.out.printf("elevator currentPos: ",currentPosition);
+        
+        System.out.println(" ");
+        System.out.println("target: " + targetPosition);
+        System.out.println("current: " + currentPosition);
+        System.out.println("diff: " + difference);
+        System.err.println(" ");
 
-        return ElevatorConstants.TOLERANCE >= difference;
+        // System.out.printf("elevator tolerance: ",ElevatorConstants.TOLERANCE);
+
+        return difference <= ElevatorConstants.TOLERANCE;
     }
 }
