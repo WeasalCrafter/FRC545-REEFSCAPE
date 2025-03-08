@@ -4,6 +4,6 @@ aimAtTarget().repeatedly()
 centerRobotWithTag().repeatedly()
     .until(abs(goalDistance - targetDistance) <= distanceTolerance);
 
-driveToDistanceHorizontal(leftOffset/rightOffset, 1 m/s);
+driveToDistanceHorizontalCommand(leftOffset/rightOffset, 1 m/s);
 
 driveToDistanceCommand(targetDistance, 1 m/s);

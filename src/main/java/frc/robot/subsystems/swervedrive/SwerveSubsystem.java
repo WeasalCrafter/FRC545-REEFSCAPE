@@ -20,6 +20,7 @@ import com.pathplanner.lib.util.swerve.SwerveSetpointGenerator;
 import edu.wpi.first.math.controller.SimpleMotorFeedforward;
 import edu.wpi.first.math.geometry.Pose2d;
 import edu.wpi.first.math.geometry.Rotation2d;
+import edu.wpi.first.math.geometry.Transform3d;
 import edu.wpi.first.math.geometry.Translation2d;
 import edu.wpi.first.math.kinematics.ChassisSpeeds;
 import edu.wpi.first.math.kinematics.SwerveDriveKinematics;
@@ -36,6 +37,7 @@ import frc.robot.Constants;
 import frc.robot.subsystems.swervedrive.Vision.Cameras;
 import java.io.File;
 import java.io.IOException;
+import java.lang.annotation.Target;
 import java.util.Arrays;
 import java.util.Optional;
 import java.util.concurrent.atomic.AtomicReference;
@@ -43,6 +45,8 @@ import java.util.function.DoubleSupplier;
 import java.util.function.Supplier;
 import org.json.simple.parser.ParseException;
 import org.photonvision.targeting.PhotonPipelineResult;
+import org.photonvision.targeting.PhotonTrackedTarget;
+
 import swervelib.SwerveController;
 import swervelib.SwerveDrive;
 import swervelib.SwerveDriveTest;
@@ -246,6 +250,30 @@ public class SwerveSubsystem extends SubsystemBase
     });
   }
 
+
+  public Command centerTarget(Cameras camera)
+  {
+
+    return run(() -> {
+      Optional<PhotonPipelineResult> resultO = camera.getBestResult();
+      if (resultO.isPresent())
+      {
+        var result = resultO.get();
+        if (result.hasTargets())
+        {
+          PhotonTrackedTarget bestTarget = result.getBestTarget();
+          Transform3d distances = bestTarget.getBestCameraToTarget();
+
+          Double dx = distances.getX(); // Forward/Backward
+          Double dy = distances.getY(); // Horizontal
+          Double dz = distances.getZ(); // Vertical
+
+          driveToDistanceHorizontalCommand(dy, 1);
+      }
+    });
+  }
+
+
   /**
    * Get the path follower with events.
    *
@@ -385,6 +413,13 @@ public class SwerveSubsystem extends SubsystemBase
   public Command driveToDistanceCommand(double distanceInMeters, double speedInMetersPerSecond)
   {
     return run(() -> drive(new ChassisSpeeds(speedInMetersPerSecond, 0, 0)))
+        .until(() -> swerveDrive.getPose().getTranslation().getDistance(new Translation2d(0, 0)) >
+                     distanceInMeters);
+  }
+
+  public Command driveToDistanceHorizontalCommand(double distanceInMeters, double speedInMetersPerSecond)
+  {
+    return run(() -> drive(new ChassisSpeeds(0, speedInMetersPerSecond, 0)))
         .until(() -> swerveDrive.getPose().getTranslation().getDistance(new Translation2d(0, 0)) >
                      distanceInMeters);
   }
