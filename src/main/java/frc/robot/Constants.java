@@ -24,7 +24,7 @@ public final class Constants
   public static final double ROBOT_MASS = Units.lbsToKilograms(108); /// 108 Pounds as of 3/3/25
   public static final Matter CHASSIS    = new Matter(new Translation3d(0, 0, Units.inchesToMeters(8)), ROBOT_MASS);
   public static final double LOOP_TIME  = 0.13; //s, 20ms + 110ms sprk max velocity lag
-  public static final double MAX_SPEED  = Units.feetToMeters(14.5);
+  public static final double MAX_SPEED  = Units.feetToMeters(10); // was 14.5
   // Maximum speed of the robot in meters per second, used to limit acceleration.
 
   public static final class AutonConstants
@@ -46,13 +46,13 @@ public final class Constants
     public static final String MAIN_CAM_NAME = "Camera_Module_v1";
     public static final Rotation3d MAIN_CAM_ROTATION = new Rotation3d(
       0,  // Roll
-      Units.degreesToRadians(0), // Pitch
+      Units.degreesToRadians(90), // Pitch before was 0
       0 // Yaw
     );
     public static final Translation3d MAIN_CAM_TRANSLATION = new Translation3d(
-      Units.inchesToMeters(15),       // X
-      Units.inchesToMeters(0),      // Y
-      Units.inchesToMeters(5) // Z
+      Units.inchesToMeters(15), // X
+      Units.inchesToMeters(0),  // Y
+      Units.inchesToMeters(5)   // Z
     );
   }
 
