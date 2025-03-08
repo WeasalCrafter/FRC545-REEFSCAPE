@@ -25,10 +25,13 @@ import frc.robot.commands.ElevatorPositionCommand;
 import frc.robot.commands.swervedrive.drivebase.AbsoluteDriveAdv;
 import frc.robot.subsystems.AlgaeIntakeSubsystem;
 import frc.robot.subsystems.ArmSubsystem;
+import frc.robot.subsystems.ClimberSubsystem;
 // import frc.robot.subsystems.ClimberSubsystem;
 import frc.robot.subsystems.ElevatorSubsystem;
 import frc.robot.subsystems.CoralIntakeSubsystem;
 import frc.robot.subsystems.swervedrive.SwerveSubsystem;
+import frc.robot.subsystems.swervedrive.Vision.Cameras;
+
 import java.io.File;
 import swervelib.SwerveInputStream;
 
@@ -43,7 +46,7 @@ public class RobotContainer
   private final ArmSubsystem arm = new ArmSubsystem();
   private final CoralIntakeSubsystem coralIntake = new CoralIntakeSubsystem();
   private final AlgaeIntakeSubsystem algaeIntake = new AlgaeIntakeSubsystem();
-  // private final ClimberSubsystem climber = new ClimberSubsystem();
+  private final ClimberSubsystem climber = new ClimberSubsystem();
 
   // Applies deadbands and inverts controls because joysticks
   // are back-right positive while robot
@@ -202,23 +205,38 @@ public class RobotContainer
                                 driveFieldOrientedAnglularVelocity :
                                 driveFieldOrientedAnglularVelocitySim);
 
+    climber.setDefaultCommand(climber.lock());
+
     // Driver Controls
-    driverXbox.y().onTrue((Commands.runOnce(drivebase::zeroGyro)));
-    driverXbox.x().whileTrue(Commands.runOnce(drivebase::lock, drivebase).repeatedly());
     driverXbox.a().onTrue(NamedCommands.getCommand("coralIntakeWithLimit"));
-    driverXbox.rightBumper().onTrue(NamedCommands.getCommand("coralIntakeReverse")).onFalse(NamedCommands.getCommand("coralIntakeLock"));
-    driverXbox.rightTrigger().onTrue(NamedCommands.getCommand("coralIntakeForward")).onFalse(NamedCommands.getCommand("coralIntakeLock"));
+    driverXbox.b().whileTrue(drivebase.aimAtTarget(Cameras.CENTER_CAM).repeatedly());
+    driverXbox.x().whileTrue(Commands.runOnce(drivebase::lock, drivebase).repeatedly());
+    driverXbox.y().onTrue((Commands.runOnce(drivebase::zeroGyro)));
+    driverXbox.rightTrigger().onTrue(climber.ascend());
+    driverXbox.leftTrigger().onTrue(climber.descend());
+    driverXbox.leftBumper().onTrue(leftSideCoralCommand());
+    driverXbox.rightBumper().onTrue(rightSideCoralCommand());
 
     // Operator Controls
     operatorXbox.x().whileTrue(Commands.runOnce(drivebase::lock, drivebase).repeatedly());
-
     operatorXbox.pov(0).onTrue(positionOne);
     operatorXbox.pov(90).onTrue(positionTwo);
     operatorXbox.pov(180).onTrue(positionThree);
     operatorXbox.pov(270).onTrue(positionFour);
-
     operatorXbox.leftTrigger().onTrue(NamedCommands.getCommand("algaeIntakeForward")).onFalse(NamedCommands.getCommand("algaeIntakeLock"));
     operatorXbox.leftBumper().onTrue(NamedCommands.getCommand("algaeIntakeReverse")).onFalse(NamedCommands.getCommand("algaeIntakeLock"));
+    operatorXbox.rightBumper().onTrue(NamedCommands.getCommand("coralIntakeReverse")).onFalse(NamedCommands.getCommand("coralIntakeLock"));
+    operatorXbox.rightTrigger().onTrue(NamedCommands.getCommand("coralIntakeForward")).onFalse(NamedCommands.getCommand("coralIntakeLock"));
+  }
+
+  public Command leftSideCoralCommand(){
+    return NamedCommands.getCommand("test");
+    // return drivebase.getAutonomousCommand("leftCoral");
+  }
+
+  public Command rightSideCoralCommand(){
+    return NamedCommands.getCommand("test");
+    //return drivebase.getAutonomousCommand("rightCoral");
   }
 
   /**
@@ -241,9 +259,9 @@ public class RobotContainer
     return elevator;
   }
 
-  // public ClimberSubsystem getClimber(){
-  //   return climber;
-  // }
+  public ClimberSubsystem getClimber(){
+    return climber;
+  }
 
   public ArmSubsystem getArm(){
     return arm;

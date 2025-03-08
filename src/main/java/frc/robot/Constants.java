@@ -120,11 +120,10 @@ public final class Constants
   public static class ClimberConstants 
   {
     public static final int CLIMBER = 40;
-    public static final int CLIMBER2 = 41; // TOOD
     
-    public static final double SPEED = 0.1;
+    public static final double SPEED = 0.8;
 
-    public static final double FORWARD_LIMIT = 10; // TODO
-    public static final double REVERSE_LIMIT = -10; // TODO
+    public static final double FORWARD_LIMIT = 100; // TODO
+    public static final double REVERSE_LIMIT = -100; // TODO
   }
 }
