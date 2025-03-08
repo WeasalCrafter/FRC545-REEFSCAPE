@@ -1,0 +1,9 @@
+aimAtTarget().repeatedly()
+    .until(abs(180 - targetYaw) <= angleTolerance);
+
+centerRobotWithTag().repeatedly()
+    .until(abs(goalDistance - targetDistance) <= distanceTolerance);
+
+driveToDistanceHorizontal(leftOffset/rightOffset, 1 m/s);
+
+driveToDistanceCommand(targetDistance, 1 m/s);
