@@ -28,6 +28,7 @@ import frc.robot.subsystems.ArmSubsystem;
 import frc.robot.subsystems.ClimberSubsystem;
 // import frc.robot.subsystems.ClimberSubsystem;
 import frc.robot.subsystems.ElevatorSubsystem;
+import frc.robot.subsystems.Photonvision;
 import frc.robot.subsystems.CoralIntakeSubsystem;
 import frc.robot.subsystems.swervedrive.SwerveSubsystem;
 import frc.robot.subsystems.swervedrive.Vision.Cameras;
@@ -47,6 +48,7 @@ public class RobotContainer
   private final CoralIntakeSubsystem coralIntake = new CoralIntakeSubsystem();
   private final AlgaeIntakeSubsystem algaeIntake = new AlgaeIntakeSubsystem();
   private final ClimberSubsystem climber = new ClimberSubsystem();
+  // private final Photonvision vision = new Photonvision(drivebase);
 
   // Applies deadbands and inverts controls because joysticks
   // are back-right positive while robot
@@ -209,7 +211,11 @@ public class RobotContainer
 
     // Driver Controls
     driverXbox.a().onTrue(NamedCommands.getCommand("coralIntakeWithLimit"));
-    driverXbox.b().whileTrue(drivebase.aimAtTarget(Cameras.CENTER_CAM).repeatedly());
+    // driverXbox.b().whileTrue(drivebase.aimAtTarget(Cameras.CENTER_CAM).repeatedly());
+
+    // driverXbox.b().onTrue(vision.aimAtTarget());
+    // driverXbox.b().onTrue(vision.fullVision());
+
     driverXbox.x().whileTrue(Commands.runOnce(drivebase::lock, drivebase).repeatedly());
     driverXbox.y().onTrue((Commands.runOnce(drivebase::zeroGyro)));
     driverXbox.rightTrigger().onTrue(climber.ascend());

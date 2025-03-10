@@ -192,9 +192,9 @@ public class SwerveSubsystem extends SubsystemBase
           // Method that will drive the robot given ROBOT RELATIVE ChassisSpeeds. Also optionally outputs individual module feedforwards
           new PPHolonomicDriveController(
               // PPHolonomicController is the built in path following controller for holonomic drive trains
-              new PIDConstants(2.0, 0.0, 0.0), // new PIDConstants(5.0, 0.0, 0.0),
+              new PIDConstants(0.1, 0.0, 0.0), // new PIDConstants(5.0, 0.0, 0.0),
               // Translation PID constants
-              new PIDConstants(2.0, 0.0, 0.0) // new PIDConstants(5.0, 0.0, 0.0)
+              new PIDConstants(0.1, 0.0, 0.0) // new PIDConstants(5.0, 0.0, 0.0)
               // Rotation PID constants
           ),
           config,
@@ -249,30 +249,6 @@ public class SwerveSubsystem extends SubsystemBase
       }
     });
   }
-
-
-  public Command centerTarget(Cameras camera)
-  {
-
-    return run(() -> {
-      Optional<PhotonPipelineResult> resultO = camera.getBestResult();
-      if (resultO.isPresent())
-      {
-        var result = resultO.get();
-        if (result.hasTargets())
-        {
-          PhotonTrackedTarget bestTarget = result.getBestTarget();
-          Transform3d distances = bestTarget.getBestCameraToTarget();
-
-          Double dx = distances.getX(); // Forward/Backward
-          Double dy = distances.getY(); // Horizontal
-          Double dz = distances.getZ(); // Vertical
-
-          driveToDistanceHorizontalCommand(dy, 1);
-      }
-    });
-  }
-
 
   /**
    * Get the path follower with events.

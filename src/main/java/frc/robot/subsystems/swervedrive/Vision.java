@@ -337,7 +337,7 @@ public class Vision
   public enum Cameras
   {
     /**
-     * Left Camera
+     * Limelight Cam
      */
     CENTER_CAM(
       VisionConstants.MAIN_CAM_NAME,
