@@ -217,7 +217,9 @@ public class RobotContainer
     // driverXbox.b().onTrue(vision.fullVision());
 
     driverXbox.x().whileTrue(Commands.runOnce(drivebase::lock, drivebase).repeatedly());
-    driverXbox.y().onTrue((Commands.runOnce(drivebase::zeroGyro)));
+    // driverXbox.y().onTrue((Commands.runOnce(drivebase::zeroGyro)));
+    driverXbox.y().onTrue((Commands.runOnce(drivebase::zeroGyroWithAlliance)));
+
     driverXbox.rightTrigger().onTrue(climber.ascend());
     driverXbox.leftTrigger().onTrue(climber.descend());
     driverXbox.leftBumper().onTrue(leftSideCoralCommand());
