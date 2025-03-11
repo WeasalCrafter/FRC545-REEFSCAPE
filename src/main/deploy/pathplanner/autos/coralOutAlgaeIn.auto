@@ -5,22 +5,21 @@
     "data": {
       "commands": [
         {
-          "type": "sequential",
+          "type": "named",
           "data": {
-            "commands": [
-              {
-                "type": "named",
-                "data": {
-                  "name": "elevatorPos4"
-                }
-              },
-              {
-                "type": "named",
-                "data": {
-                  "name": "armPosDown"
-                }
-              }
-            ]
+            "name": "elevatorPos4"
+          }
+        },
+        {
+          "type": "named",
+          "data": {
+            "name": "armPosDown"
+          }
+        },
+        {
+          "type": "path",
+          "data": {
+            "pathName": "1m_forward"
           }
         },
         {
@@ -30,15 +29,9 @@
           }
         },
         {
-          "type": "path",
-          "data": {
-            "pathName": "midToReef"
-          }
-        },
-        {
           "type": "wait",
           "data": {
-            "waitTime": 1.0
+            "waitTime": 2.0
           }
         },
         {
@@ -60,52 +53,9 @@
           }
         },
         {
-          "type": "parallel",
-          "data": {
-            "commands": [
-              {
-                "type": "path",
-                "data": {
-                  "pathName": "reefToProcessor"
-                }
-              },
-              {
-                "type": "named",
-                "data": {
-                  "name": "elevatorPos2"
-                }
-              },
-              {
-                "type": "named",
-                "data": {
-                  "name": "armPosDown"
-                }
-              }
-            ]
-          }
-        },
-        {
           "type": "named",
           "data": {
-            "name": "algaeIntakeForward"
-          }
-        },
-        {
-          "type": "wait",
-          "data": {
-            "waitTime": 1.0
-          }
-        },
-        {
-          "type": "named",
-          "data": {
-            "name": "algaeIntakeLock"
-          }
-        },
-        {
-          "type": "path",
-          "data": {
-            "pathName": "processorToHuman"
+            "name": "coralIntakeLock"
           }
         }
       ]

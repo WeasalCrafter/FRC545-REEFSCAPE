@@ -29,8 +29,8 @@ public final class Constants
 
   public static final class AutonConstants
   {
-    public static final PIDConstants TRANSLATION_PID = new PIDConstants(0.1, 0, 0);
-    public static final PIDConstants ANGLE_PID       = new PIDConstants(0.4, 0, 0.01);
+    public static final PIDConstants TRANSLATION_PID = new PIDConstants(1, 0, 0);
+    public static final PIDConstants ANGLE_PID       = new PIDConstants(0.1, 0, 0);
   }
 
   public static final class DrivebaseConstants
@@ -46,13 +46,13 @@ public final class Constants
     public static final String MAIN_CAM_NAME = "Camera_Module_v1";
     public static final Rotation3d MAIN_CAM_ROTATION = new Rotation3d(
       0,  // Roll
-      Units.degreesToRadians(90), // Pitch before was 0
+      0, // Units.degreesToRadians(90), // Pitch before was 0
       0 // Yaw
     );
     public static final Translation3d MAIN_CAM_TRANSLATION = new Translation3d(
       Units.inchesToMeters(15), // X
       Units.inchesToMeters(0),  // Y
-      Units.inchesToMeters(5)   // Z
+      Units.inchesToMeters(9)   // Z
     );
   }
 

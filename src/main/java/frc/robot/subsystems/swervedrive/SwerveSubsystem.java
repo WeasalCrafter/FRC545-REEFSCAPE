@@ -34,6 +34,7 @@ import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import edu.wpi.first.wpilibj2.command.button.RobotModeTriggers;
 import edu.wpi.first.wpilibj2.command.sysid.SysIdRoutine.Config;
 import frc.robot.Constants;
+import frc.robot.Constants.AutonConstants;
 import frc.robot.subsystems.swervedrive.Vision.Cameras;
 import java.io.File;
 import java.io.IOException;
@@ -168,7 +169,7 @@ public class SwerveSubsystem extends SubsystemBase
     {
       config = RobotConfig.fromGUISettings();
 
-      final boolean enableFeedforward = false;
+      final boolean enableFeedforward = true;
       // Configure AutoBuilder last
       AutoBuilder.configure(
           this::getPose,
@@ -193,10 +194,11 @@ public class SwerveSubsystem extends SubsystemBase
           // Method that will drive the robot given ROBOT RELATIVE ChassisSpeeds. Also optionally outputs individual module feedforwards
           new PPHolonomicDriveController(
               // PPHolonomicController is the built in path following controller for holonomic drive trains
-              new PIDConstants(0.2, 0.0, 0.0), // new PIDConstants(5.0, 0.0, 0.0),
-              // Translation PID constants
-              new PIDConstants(0.1, 0.0, 0.0) // new PIDConstants(5.0, 0.0, 0.0)
-              // Rotation PID constants
+              AutonConstants.TRANSLATION_PID, AutonConstants.ANGLE_PID
+              // new PIDConstants(0.1, 0.0, 0.0), // new PIDConstants(5.0, 0.0, 0.0),
+              // // Translation PID constants
+              // new PIDConstants(0.2, 0.0, 0.0) // new PIDConstants(5.0, 0.0, 0.0)
+              // // Rotation PID constants
           ),
           config,
           // The robot configuration

@@ -216,9 +216,9 @@ public class RobotContainer
     // driverXbox.b().onTrue(vision.aimAtTarget());
     // driverXbox.b().onTrue(vision.fullVision());
 
-    driverXbox.x().whileTrue(Commands.runOnce(drivebase::lock, drivebase).repeatedly());
-    // driverXbox.y().onTrue((Commands.runOnce(drivebase::zeroGyro)));
-    driverXbox.y().onTrue((Commands.runOnce(drivebase::zeroGyroWithAlliance)));
+    // driverXbox.x().whileTrue(Commands.runOnce(drivebase::lock, drivebase).repeatedly());
+    driverXbox.y().onTrue((Commands.runOnce(drivebase::zeroGyro)));
+    driverXbox.x().onTrue((Commands.runOnce(drivebase::zeroGyroWithAlliance)));
 
     driverXbox.rightTrigger().onTrue(climber.ascend());
     driverXbox.leftTrigger().onTrue(climber.descend());
@@ -256,7 +256,7 @@ public class RobotContainer
   {
     // return drivebase.driveToDistanceCommand(2,2);
     // An example command will be run in autonomous
-    return drivebase.getAutonomousCommand("test");
+    return drivebase.getAutonomousCommand("coralOutAlgaeIn");
   }
 
   public void setMotorBrake(boolean brake)
