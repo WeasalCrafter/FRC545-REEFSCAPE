@@ -135,7 +135,7 @@ public class RobotContainer
   );
   SequentialCommandGroup positionTwo = new SequentialCommandGroup(
     new ElevatorPositionCommand(elevator, ElevatorConstants.POS_TWO),
-    new ArmPositionCommand(arm, ArmConstants.POS_DOWN)
+    new ArmPositionCommand(arm, ArmConstants.POS_MID)
   );
   SequentialCommandGroup positionThree = new SequentialCommandGroup(
     new ElevatorPositionCommand(elevator, ElevatorConstants.POS_THREE),
@@ -174,8 +174,8 @@ public class RobotContainer
 
     // Configure the trigger bindings
     
-    // configureBindingsDebug();
-    configureDriverAndOperator();
+    configureBindingsDebug();
+    // configureDriverAndOperator();
   }
 
   private void configureBindingsDebug()
@@ -196,10 +196,18 @@ public class RobotContainer
     driverXbox.pov(180).onTrue(positionThree);
     driverXbox.pov(270).onTrue(positionFour);
 
+    // driverXbox.pov(0).onTrue(NamedCommands.getCommand("elevatorPos1"));
+    // driverXbox.pov(90).onTrue(NamedCommands.getCommand("elevatorPos2"));
+    // driverXbox.pov(180).onTrue(NamedCommands.getCommand("elevatorPos3"));
+    // driverXbox.pov(270).onTrue(NamedCommands.getCommand("elevatorPos4"));
+
+    
     driverXbox.a().onTrue(NamedCommands.getCommand("coralIntakeWithLimit"));
 
     driverXbox.y().onTrue((Commands.runOnce(drivebase::zeroGyro)));
-    driverXbox.x().whileTrue(Commands.runOnce(drivebase::lock, drivebase).repeatedly());
+    driverXbox.x().onTrue((Commands.runOnce(drivebase::zeroGyroWithAlliance)));
+
+    // driverXbox.x().whileTrue(Commands.runOnce(drivebase::lock, drivebase).repeatedly());
   }
 
   private void configureDriverAndOperator(){

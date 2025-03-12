@@ -7,13 +7,19 @@
         {
           "type": "named",
           "data": {
-            "name": "elevatorPos4"
+            "name": "elevatorPos3"
           }
         },
         {
           "type": "named",
           "data": {
             "name": "armPosDown"
+          }
+        },
+        {
+          "type": "named",
+          "data": {
+            "name": "algaeIntakeReverse"
           }
         },
         {
@@ -25,13 +31,7 @@
         {
           "type": "named",
           "data": {
-            "name": "algaeIntakeReverse"
-          }
-        },
-        {
-          "type": "wait",
-          "data": {
-            "waitTime": 2.0
+            "name": "elevatorPos4"
           }
         },
         {

@@ -29,8 +29,8 @@ public final class Constants
 
   public static final class AutonConstants
   {
-    public static final PIDConstants TRANSLATION_PID = new PIDConstants(3, 0, 0);
-    public static final PIDConstants ANGLE_PID       = new PIDConstants(0.4, 0, 0);
+    public static final PIDConstants TRANSLATION_PID = new PIDConstants(0.5, 0, 0);
+    public static final PIDConstants ANGLE_PID       = new PIDConstants(0.01, 0, 0);
   }
 
   public static final class DrivebaseConstants
@@ -70,11 +70,11 @@ public final class Constants
     public static final int LEADER = 20;
     public static final int FOLLOWER = 21;
 
-    public static final double POS_ZERO = 1.5;
-    public static final double POS_ONE = 1.5;
-    public static final double POS_TWO = 5;
+    public static final double POS_ZERO = 1;
+    public static final double POS_ONE = 1;
+    public static final double POS_TWO = 5.5;
     public static final double POS_THREE = 13.5;
-    public static final double POS_FOUR = 28;
+    public static final double POS_FOUR = 26.5;
 
     public static final PIDConstants PID_CONSTANTS = new PIDConstants(0.2,0.0,0.5);
 
@@ -88,9 +88,9 @@ public final class Constants
   {
     public static final int PIVOT = 30;
 
-    public static final double POS_UP = -5;
-    // public static final double POS_MID = -21;
-    public static final double POS_DOWN = 40;
+    public static final double POS_UP = -7;
+    public static final double POS_MID = 29;
+    public static final double POS_DOWN = 29;
 
     public static final PIDConstants PID_CONSTANTS = new PIDConstants(0.03,0,0.03,0);
     public static final double MAX_SPEED = 0.1;
