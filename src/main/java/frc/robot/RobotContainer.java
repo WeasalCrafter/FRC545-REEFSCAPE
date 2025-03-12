@@ -256,7 +256,7 @@ public class RobotContainer
   {
     // return drivebase.driveToDistanceCommand(2,2);
     // An example command will be run in autonomous
-    return drivebase.getAutonomousCommand("coralOutAlgaeIn");
+    return drivebase.getAutonomousCommand("test");
   }
 
   public void setMotorBrake(boolean brake)

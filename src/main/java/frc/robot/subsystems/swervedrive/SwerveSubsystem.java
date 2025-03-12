@@ -114,8 +114,8 @@ public class SwerveSubsystem extends SubsystemBase
       swerveDrive.stopOdometryThread();
     }
     setupPathPlanner();
-    // RobotModeTriggers.autonomous().onTrue(Commands.runOnce(this::zeroGyroWithAlliance)); // TODO
-    RobotModeTriggers.autonomous().onTrue(Commands.runOnce(this::zeroGyro));
+    RobotModeTriggers.autonomous().onTrue(Commands.runOnce(this::zeroGyroWithAlliance)); // TODO
+    // RobotModeTriggers.autonomous().onTrue(Commands.runOnce(this::zeroGyro));
   }
 
   /**
@@ -596,7 +596,7 @@ public class SwerveSubsystem extends SubsystemBase
    */
   public void zeroGyroWithAlliance()
   {
-    if (isRedAlliance())
+    if (!isRedAlliance()) // initially not ! TODO
     {
       zeroGyro();
       //Set the pose 180 degrees

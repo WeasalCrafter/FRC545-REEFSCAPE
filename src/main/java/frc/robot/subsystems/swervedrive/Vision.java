@@ -343,21 +343,21 @@ public class Vision
       VisionConstants.MAIN_CAM_NAME,
       VisionConstants.MAIN_CAM_ROTATION,
       VisionConstants.MAIN_CAM_TRANSLATION,
-      VecBuilder.fill(4, 4, 8), VecBuilder.fill(0.5, 0.5, 1)),
-
-    UPPER_CAM(
-      "HD_USB_Camera",
-      new Rotation3d(
-        0,
-        Units.degreesToRadians(-30.0),
-        0
-      ),
-      new Translation3d(
-        0.32,
-        0.18,
-        0.97
-      ),
       VecBuilder.fill(4, 4, 8), VecBuilder.fill(0.5, 0.5, 1));
+
+    // UPPER_CAM(
+    //   "HD_USB_Camera",
+    //   new Rotation3d(
+    //     0,
+    //     Units.degreesToRadians(-30.0),
+    //     0
+    //   ),
+    //   new Translation3d(
+    //     0.32,
+    //     0.18,
+    //     0.97
+    //   ),
+    //   VecBuilder.fill(4, 4, 8), VecBuilder.fill(0.5, 0.5, 1));
 
     /**
      * Latency alert to use when high latency is detected.
@@ -434,10 +434,25 @@ public class Vision
       this.multiTagStdDevs = multiTagStdDevsMatrix;
 
       if (Robot.isSimulation())
+      // {
+      //   SimCameraProperties cameraProp = new SimCameraProperties();
+      //   // A 640 x 480 camera with a 100 degree diagonal FOV.
+      //   cameraProp.setCalibration(960, 720, Rotation2d.fromDegrees(100));
+      //   // Approximate detection noise with average and standard deviation error in pixels.
+      //   cameraProp.setCalibError(0.25, 0.08);
+      //   // Set the camera image capture framerate (Note: this is limited by robot loop rate).
+      //   cameraProp.setFPS(30);
+      //   // The average and standard deviation in milliseconds of image data latency.
+      //   cameraProp.setAvgLatencyMs(35);
+      //   cameraProp.setLatencyStdDevMs(5);
+
+      //   cameraSim = new PhotonCameraSim(camera, cameraProp);
+      //   cameraSim.enableDrawWireframe(true);
+      // }
       {
         SimCameraProperties cameraProp = new SimCameraProperties();
         // A 640 x 480 camera with a 100 degree diagonal FOV.
-        cameraProp.setCalibration(960, 720, Rotation2d.fromDegrees(100));
+        cameraProp.setCalibration(800, 640, Rotation2d.fromDegrees(70));
         // Approximate detection noise with average and standard deviation error in pixels.
         cameraProp.setCalibError(0.25, 0.08);
         // Set the camera image capture framerate (Note: this is limited by robot loop rate).
