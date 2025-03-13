@@ -72,7 +72,7 @@ public final class Constants
 
     public static final double POS_ZERO = 1;
     public static final double POS_ONE = 1;
-    public static final double POS_TWO = 5.5;
+    public static final double POS_TWO = 4.5;
     public static final double POS_THREE = 13.5;
     public static final double POS_FOUR = 26.5;
 
@@ -88,7 +88,7 @@ public final class Constants
   {
     public static final int PIVOT = 30;
 
-    public static final double POS_UP = -7;
+    public static final double POS_UP = -15;
     public static final double POS_MID = 29;
     public static final double POS_DOWN = 29;
 
@@ -107,7 +107,7 @@ public final class Constants
     public static final int LIMIT = 0;
 
     public static final int LASER_CAN = 24;
-    public static final double THRESHOLD_MM = 0;  // TODO
+    public static final double THRESHOLD_MM = 8;  // TODO
   }
 
   public static class AlgaeIntakeConstants
