@@ -4,7 +4,6 @@
 
 package frc.robot;
 
-import com.fasterxml.jackson.databind.util.Named;
 import com.pathplanner.lib.auto.AutoBuilder;
 import com.pathplanner.lib.auto.NamedCommands;
 import edu.wpi.first.math.MathUtil;
@@ -19,8 +18,6 @@ import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.Commands;
 import edu.wpi.first.wpilibj2.command.SequentialCommandGroup;
-import edu.wpi.first.wpilibj2.command.WaitCommand;
-import edu.wpi.first.wpilibj2.command.WaitUntilCommand;
 import edu.wpi.first.wpilibj2.command.button.CommandXboxController;
 import frc.robot.Constants.ArmConstants;
 import frc.robot.Constants.ElevatorConstants;
@@ -32,12 +29,9 @@ import frc.robot.commands.swervedrive.drivebase.AbsoluteDriveAdv;
 import frc.robot.subsystems.AlgaeIntakeSubsystem;
 import frc.robot.subsystems.ArmSubsystem;
 import frc.robot.subsystems.ClimberSubsystem;
-// import frc.robot.subsystems.ClimberSubsystem;
 import frc.robot.subsystems.ElevatorSubsystem;
-import frc.robot.subsystems.Photonvision;
 import frc.robot.subsystems.CoralIntakeSubsystem;
 import frc.robot.subsystems.swervedrive.SwerveSubsystem;
-import frc.robot.subsystems.swervedrive.Vision.Cameras;
 
 import java.io.File;
 import swervelib.SwerveInputStream;
@@ -56,7 +50,6 @@ public class RobotContainer
   private final CoralIntakeSubsystem coralIntake = new CoralIntakeSubsystem();
   private final AlgaeIntakeSubsystem algaeIntake = new AlgaeIntakeSubsystem();
   private final ClimberSubsystem climber = new ClimberSubsystem();
-  // private final Photonvision vision = new Photonvision(drivebase);
 
   // Applies deadbands and inverts controls because joysticks
   // are back-right positive while robot
@@ -228,41 +221,30 @@ public class RobotContainer
     climber.setDefaultCommand(climber.lock());
 
     // Driver Controls
-    driverXbox.a().onTrue(NamedCommands.getCommand("coralIntakeWithLimit"));
-    // driverXbox.b().whileTrue(drivebase.aimAtTarget(Cameras.CENTER_CAM).repeatedly());
-
-    // driverXbox.b().onTrue(vision.aimAtTarget());
-    // driverXbox.b().onTrue(vision.fullVision());
-
-    // driverXbox.x().whileTrue(Commands.runOnce(drivebase::lock, drivebase).repeatedly());
+    driverXbox.a().onTrue(drivebase.autoAlignReef()); 
+    driverXbox.b().onTrue(Commands.none());
+    driverXbox.x().whileTrue(Commands.runOnce(drivebase::lock, drivebase).repeatedly());
     driverXbox.y().onTrue((Commands.runOnce(drivebase::zeroGyro)));
-    driverXbox.x().onTrue((Commands.runOnce(drivebase::zeroGyroWithAlliance)));
+    // driverXbox.y().onTrue((Commands.runOnce(drivebase::zeroGyroWithAlliance)));
 
     driverXbox.rightTrigger().onTrue(climber.ascend());
     driverXbox.leftTrigger().onTrue(climber.descend());
-    driverXbox.leftBumper().onTrue(leftSideCoralCommand());
-    driverXbox.rightBumper().onTrue(rightSideCoralCommand());
 
     // Operator Controls
+    operatorXbox.a().onTrue(NamedCommands.getCommand("coralIntakeWithLimit")); 
+    operatorXbox.b().onTrue(Commands.none());
     operatorXbox.x().whileTrue(Commands.runOnce(drivebase::lock, drivebase).repeatedly());
+    operatorXbox.y().onTrue(Commands.none());
+
     operatorXbox.pov(0).onTrue(positionOne);
     operatorXbox.pov(90).onTrue(positionTwo);
     operatorXbox.pov(180).onTrue(positionThree);
     operatorXbox.pov(270).onTrue(positionFour);
+
     operatorXbox.leftTrigger().onTrue(NamedCommands.getCommand("algaeIntakeForward")).onFalse(NamedCommands.getCommand("algaeIntakeLock"));
     operatorXbox.leftBumper().onTrue(NamedCommands.getCommand("algaeIntakeReverse")).onFalse(NamedCommands.getCommand("algaeIntakeLock"));
     operatorXbox.rightBumper().onTrue(NamedCommands.getCommand("coralIntakeReverse")).onFalse(NamedCommands.getCommand("coralIntakeLock"));
     operatorXbox.rightTrigger().onTrue(NamedCommands.getCommand("coralIntakeForward")).onFalse(NamedCommands.getCommand("coralIntakeLock"));
-  }
-
-  public Command leftSideCoralCommand(){
-    return NamedCommands.getCommand("test");
-    // return drivebase.getAutonomousCommand("leftCoral");
-  }
-
-  public Command rightSideCoralCommand(){
-    return NamedCommands.getCommand("test");
-    //return drivebase.getAutonomousCommand("rightCoral");
   }
 
   /**
