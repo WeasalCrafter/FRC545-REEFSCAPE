@@ -8,6 +8,9 @@ import com.fasterxml.jackson.databind.util.Named;
 import com.pathplanner.lib.auto.AutoBuilder;
 import com.pathplanner.lib.auto.NamedCommands;
 import edu.wpi.first.math.MathUtil;
+import edu.wpi.first.math.geometry.Pose2d;
+import edu.wpi.first.math.geometry.Rotation2d;
+import edu.wpi.first.math.util.Units;
 import edu.wpi.first.wpilibj.DriverStation;
 import edu.wpi.first.wpilibj.Filesystem;
 import edu.wpi.first.wpilibj.RobotBase;
@@ -110,8 +113,8 @@ public class RobotContainer
   Command driveSetpointGen = drivebase.driveWithSetpointGeneratorFieldRelative(driveDirectAngle);
 
   SwerveInputStream driveAngularVelocitySim = SwerveInputStream.of(drivebase.getSwerveDrive(),
-                                                                   () -> driverXbox.getLeftY(),
-                                                                   () -> driverXbox.getLeftX())
+                                                                   () -> -driverXbox.getLeftY(),
+                                                                   () -> -driverXbox.getLeftX())
                                                                .withControllerRotationAxis(() -> driverXbox.getRawAxis(2))
                                                                .deadband(OperatorConstants.DEADBAND)
                                                                .scaleTranslation(0.8)
@@ -187,6 +190,13 @@ public class RobotContainer
 
   private void configureBindingsDebug()
   {
+
+    Pose2d position = new Pose2d(
+      5.8,
+      4.1,
+      new Rotation2d(Units.degreesToRadians(-180))
+    );
+
     // (Condition) ? Return-On-True : Return-on-False
     drivebase.setDefaultCommand(!RobotBase.isSimulation() ?
                                 driveFieldOrientedAnglularVelocity :
@@ -194,7 +204,6 @@ public class RobotContainer
 
     driverXbox.rightTrigger().onTrue(NamedCommands.getCommand("coralIntakeForward")).onFalse(NamedCommands.getCommand("coralIntakeLock"));
     driverXbox.rightBumper().onTrue(NamedCommands.getCommand("coralIntakeReverse")).onFalse(NamedCommands.getCommand("coralIntakeLock"));
-
     driverXbox.leftTrigger().onTrue(NamedCommands.getCommand("algaeIntakeForward")).onFalse(NamedCommands.getCommand("algaeIntakeLock"));
     driverXbox.leftBumper().onTrue(NamedCommands.getCommand("algaeIntakeReverse")).onFalse(NamedCommands.getCommand("algaeIntakeLock"));
 
@@ -202,13 +211,13 @@ public class RobotContainer
     driverXbox.pov(90).onTrue(positionTwo);
     driverXbox.pov(180).onTrue(positionThree);
     driverXbox.pov(270).onTrue(positionFour);
-    
-    driverXbox.a().onTrue(NamedCommands.getCommand("coralIntakeWithLimit"));
-    driverXbox.b().onTrue(drivebase.aimAtTarget(Cameras.CENTER_CAM)); //.repeatedly());
-    driverXbox.y().onTrue((Commands.runOnce(drivebase::zeroGyro)));
-    driverXbox.x().onTrue((Commands.runOnce(drivebase::zeroGyroWithAlliance)));
 
-    // driverXbox.x().whileTrue(Commands.runOnce(drivebase::lock, drivebase).repeatedly());
+    driverXbox.a().onTrue(drivebase.autoAlignReef()); 
+    driverXbox.b().onTrue(NamedCommands.getCommand("coralIntakeWithLimit")); 
+
+    driverXbox.x().whileTrue(Commands.runOnce(drivebase::lock, drivebase).repeatedly());
+    driverXbox.y().onTrue((Commands.runOnce(drivebase::zeroGyro)));
+    // driverXbox.y().onTrue((Commands.runOnce(drivebase::zeroGyroWithAlliance)));
   }
 
   private void configureDriverAndOperator(){

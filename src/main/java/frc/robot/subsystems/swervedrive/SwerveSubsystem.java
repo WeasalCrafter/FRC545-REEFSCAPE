@@ -19,6 +19,7 @@ import com.pathplanner.lib.util.swerve.SwerveSetpoint;
 import com.pathplanner.lib.util.swerve.SwerveSetpointGenerator;
 import edu.wpi.first.math.controller.SimpleMotorFeedforward;
 import edu.wpi.first.math.geometry.Pose2d;
+import edu.wpi.first.math.geometry.Pose3d;
 import edu.wpi.first.math.geometry.Rotation2d;
 import edu.wpi.first.math.geometry.Transform3d;
 import edu.wpi.first.math.geometry.Translation2d;
@@ -28,10 +29,12 @@ import edu.wpi.first.math.trajectory.Trajectory;
 import edu.wpi.first.math.util.Units;
 import edu.wpi.first.wpilibj.DriverStation;
 import edu.wpi.first.wpilibj.Timer;
+import edu.wpi.first.wpilibj.motorcontrol.DMC60;
 import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.Commands;
+import edu.wpi.first.wpilibj2.command.InstantCommand;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import edu.wpi.first.wpilibj2.command.button.RobotModeTriggers;
 import edu.wpi.first.wpilibj2.command.sysid.SysIdRoutine.Config;
@@ -42,11 +45,14 @@ import java.io.File;
 import java.io.IOException;
 import java.lang.annotation.Target;
 import java.util.Arrays;
+import java.util.Map;
 import java.util.Optional;
+import java.util.TreeMap;
 import java.util.concurrent.atomic.AtomicReference;
 import java.util.function.DoubleSupplier;
 import java.util.function.Supplier;
 import org.json.simple.parser.ParseException;
+import org.photonvision.simulation.VisionTargetSim;
 import org.photonvision.targeting.PhotonPipelineResult;
 import org.photonvision.targeting.PhotonTrackedTarget;
 
@@ -277,8 +283,8 @@ public class SwerveSubsystem extends SubsystemBase
   {
 // Create the constraints to use while pathfinding
     PathConstraints constraints = new PathConstraints(
-        swerveDrive.getMaximumChassisVelocity(), 4.0,
-        swerveDrive.getMaximumChassisAngularVelocity(), Units.degreesToRadians(720));
+        swerveDrive.getMaximumChassisVelocity(), 3,
+        swerveDrive.getMaximumChassisAngularVelocity(), Units.degreesToRadians(180));
 
 // Since AutoBuilder is configured, we can use it to build pathfinding commands
     return AutoBuilder.pathfindToPose(
@@ -435,6 +441,74 @@ public class SwerveSubsystem extends SubsystemBase
                         Math.pow(angularRotationX.getAsDouble(), 3) * swerveDrive.getMaximumChassisAngularVelocity(),
                         true,
                         false);
+    });
+  }
+
+  public Command autoAlignReef(){
+    return runOnce(() -> {
+      
+      TreeMap<Double, Pose2d> poseTreeMap = new TreeMap<>();
+
+      Double distanceThreshold = 2.0;
+
+      Pose2d targetPos;
+
+      Pose2d tag20 = new Pose2d(5.18,5.13,new Rotation2d(Units.degreesToRadians(-120)));
+      Pose2d tag21 = new Pose2d(5.4,4.16,new Rotation2d(Units.degreesToRadians(180)));
+      Pose2d tag22 = new Pose2d(5.2,2.9,new Rotation2d(Units.degreesToRadians(120)));
+      Pose2d tag19 = new Pose2d(3.8,5.1,new Rotation2d(Units.degreesToRadians(-60)));
+      Pose2d tag18 = new Pose2d(3.19,4,new Rotation2d(Units.degreesToRadians(0)));
+      Pose2d tag17 = new Pose2d(3.84,2.92,new Rotation2d(Units.degreesToRadians(60)));
+
+      Pose2d tag6 = new Pose2d(13.7,2.9,new Rotation2d(Units.degreesToRadians(120)));
+      Pose2d tag7 = new Pose2d(14.33,4.07,new Rotation2d(Units.degreesToRadians(180)));
+      Pose2d tag8 = new Pose2d(13.7,5.15,new Rotation2d(Units.degreesToRadians(-120)));
+      Pose2d tag9 = new Pose2d(12.47,5.15,new Rotation2d(Units.degreesToRadians(-60)));
+      Pose2d tag10 = new Pose2d(11.78,4,new Rotation2d(Units.degreesToRadians(0)));
+      Pose2d tag11 = new Pose2d(12.45,2.9,new Rotation2d(Units.degreesToRadians(60)));
+
+      // Pose2d zero = new Pose2d(0,0, new Rotation2d(0));
+
+      if (isRedAlliance() == true){
+        System.out.println("red");
+        double d6 = vision.getDistanceFromAprilTag(6);
+        double d7 = vision.getDistanceFromAprilTag(7);
+        double d8 = vision.getDistanceFromAprilTag(8);
+        double d9 = vision.getDistanceFromAprilTag(9);
+        double d10 = vision.getDistanceFromAprilTag(10);
+        double d11 = vision.getDistanceFromAprilTag(11);
+
+        poseTreeMap.put(d6, tag6);
+        poseTreeMap.put(d7, tag7);
+        poseTreeMap.put(d8, tag8);
+        poseTreeMap.put(d9, tag9);
+        poseTreeMap.put(d10, tag10);
+        poseTreeMap.put(d11, tag11);
+      }else{
+        System.out.println("blue");
+        double d17 = vision.getDistanceFromAprilTag(17);
+        double d18 = vision.getDistanceFromAprilTag(18);
+        double d19 = vision.getDistanceFromAprilTag(19);
+        double d20 = vision.getDistanceFromAprilTag(20);
+        double d21 = vision.getDistanceFromAprilTag(21);
+        double d22 = vision.getDistanceFromAprilTag(22);
+
+        poseTreeMap.put(d17, tag17);
+        poseTreeMap.put(d18, tag18);
+        poseTreeMap.put(d19, tag19);
+        poseTreeMap.put(d20, tag20);
+        poseTreeMap.put(d21, tag21);
+        poseTreeMap.put(d22, tag22);
+      }
+
+      // System.out.println(poseTreeMap.firstEntry().getKey());
+
+      double smallestDistance = poseTreeMap.firstKey();
+      targetPos = poseTreeMap.get(smallestDistance);
+
+      if (smallestDistance < distanceThreshold) {
+        driveToPose(targetPos).schedule();
+      }    
     });
   }
 

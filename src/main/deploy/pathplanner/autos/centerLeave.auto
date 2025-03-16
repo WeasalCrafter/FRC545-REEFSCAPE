@@ -7,13 +7,13 @@
         {
           "type": "path",
           "data": {
-            "pathName": "centerToReef"
+            "pathName": "centerLeave"
           }
         }
       ]
     }
   },
   "resetOdom": true,
-  "folder": null,
+  "folder": "just leave",
   "choreoAuto": false
 }
