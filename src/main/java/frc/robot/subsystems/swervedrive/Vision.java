@@ -343,21 +343,9 @@ public class Vision
       VisionConstants.MAIN_CAM_NAME,
       VisionConstants.MAIN_CAM_ROTATION,
       VisionConstants.MAIN_CAM_TRANSLATION,
-      VecBuilder.fill(4, 4, 8), VecBuilder.fill(0.5, 0.5, 1));
-
-    // UPPER_CAM(
-    //   "HD_USB_Camera",
-    //   new Rotation3d(
-    //     0,
-    //     Units.degreesToRadians(-30.0),
-    //     0
-    //   ),
-    //   new Translation3d(
-    //     0.32,
-    //     0.18,
-    //     0.97
-    //   ),
-    //   VecBuilder.fill(4, 4, 8), VecBuilder.fill(0.5, 0.5, 1));
+      VecBuilder.fill(0.5, 0.5, 2), // VecBuilder.fill(4, 4, 8), lowered the standard deviations because the testing environment at island trees has one tag setup
+      VecBuilder.fill(0.5, 0.5, 1)
+    );
 
     /**
      * Latency alert to use when high latency is detected.

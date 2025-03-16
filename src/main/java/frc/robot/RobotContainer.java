@@ -5,11 +5,14 @@
 package frc.robot;
 
 import com.fasterxml.jackson.databind.util.Named;
+import com.pathplanner.lib.auto.AutoBuilder;
 import com.pathplanner.lib.auto.NamedCommands;
 import edu.wpi.first.math.MathUtil;
 import edu.wpi.first.wpilibj.DriverStation;
 import edu.wpi.first.wpilibj.Filesystem;
 import edu.wpi.first.wpilibj.RobotBase;
+import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.Commands;
 import edu.wpi.first.wpilibj2.command.SequentialCommandGroup;
@@ -40,6 +43,8 @@ public class RobotContainer
 {
   final CommandXboxController driverXbox = new CommandXboxController(0);
   final CommandXboxController operatorXbox = new CommandXboxController(1);
+
+  private final SendableChooser<Command> autoChooser;
 
   // Subsystem delclarations
   private final SwerveSubsystem drivebase  = new SwerveSubsystem(new File(Filesystem.getDeployDirectory(),"swerve/545"));                                                                                
@@ -73,8 +78,8 @@ public class RobotContainer
    * Converts driver input into a field-relative ChassisSpeeds that is controlled by angular velocity.
    */
   SwerveInputStream driveAngularVelocity = SwerveInputStream.of(drivebase.getSwerveDrive(),
-                                                                () -> driverXbox.getLeftY() * -1,
-                                                                () -> driverXbox.getLeftX() * -1)
+                                                                () -> -driverXbox.getLeftY(),
+                                                                () -> -driverXbox.getLeftX())
                                                             .withControllerRotationAxis(driverXbox::getRightX)
                                                             .deadband(OperatorConstants.DEADBAND)
                                                             .scaleTranslation(0.8)
@@ -105,8 +110,8 @@ public class RobotContainer
   Command driveSetpointGen = drivebase.driveWithSetpointGeneratorFieldRelative(driveDirectAngle);
 
   SwerveInputStream driveAngularVelocitySim = SwerveInputStream.of(drivebase.getSwerveDrive(),
-                                                                   () -> -driverXbox.getLeftY(),
-                                                                   () -> -driverXbox.getLeftX())
+                                                                   () -> driverXbox.getLeftY(),
+                                                                   () -> driverXbox.getLeftX())
                                                                .withControllerRotationAxis(() -> driverXbox.getRawAxis(2))
                                                                .deadband(OperatorConstants.DEADBAND)
                                                                .scaleTranslation(0.8)
@@ -175,6 +180,8 @@ public class RobotContainer
     // Configure the trigger bindings
     
     configureBindingsDebug();
+    autoChooser = AutoBuilder.buildAutoChooser();
+    SmartDashboard.putData("Auto Mode", autoChooser);
     // configureDriverAndOperator();
   }
 
@@ -195,15 +202,9 @@ public class RobotContainer
     driverXbox.pov(90).onTrue(positionTwo);
     driverXbox.pov(180).onTrue(positionThree);
     driverXbox.pov(270).onTrue(positionFour);
-
-    // driverXbox.pov(0).onTrue(NamedCommands.getCommand("elevatorPos1"));
-    // driverXbox.pov(90).onTrue(NamedCommands.getCommand("elevatorPos2"));
-    // driverXbox.pov(180).onTrue(NamedCommands.getCommand("elevatorPos3"));
-    // driverXbox.pov(270).onTrue(NamedCommands.getCommand("elevatorPos4"));
-
     
     driverXbox.a().onTrue(NamedCommands.getCommand("coralIntakeWithLimit"));
-
+    driverXbox.b().onTrue(drivebase.aimAtTarget(Cameras.CENTER_CAM)); //.repeatedly());
     driverXbox.y().onTrue((Commands.runOnce(drivebase::zeroGyro)));
     driverXbox.x().onTrue((Commands.runOnce(drivebase::zeroGyroWithAlliance)));
 
@@ -264,7 +265,8 @@ public class RobotContainer
   {
     // return drivebase.driveToDistanceCommand(2,2);
     // An example command will be run in autonomous
-    return drivebase.getAutonomousCommand("test");
+    //return drivebase.getAutonomousCommand("test");
+    return autoChooser.getSelected();
   }
 
   public void setMotorBrake(boolean brake)

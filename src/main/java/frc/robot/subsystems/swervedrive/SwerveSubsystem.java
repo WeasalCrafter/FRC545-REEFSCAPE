@@ -28,6 +28,8 @@ import edu.wpi.first.math.trajectory.Trajectory;
 import edu.wpi.first.math.util.Units;
 import edu.wpi.first.wpilibj.DriverStation;
 import edu.wpi.first.wpilibj.Timer;
+import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.Commands;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
@@ -576,6 +578,7 @@ public class SwerveSubsystem extends SubsystemBase
   public void zeroGyro()
   {
     swerveDrive.zeroGyro();
+    // resetOdometry(new Pose2d(getPose().getTranslation(), Rotation2d.fromDegrees(180)));
   }
 
   /**
@@ -596,7 +599,7 @@ public class SwerveSubsystem extends SubsystemBase
    */
   public void zeroGyroWithAlliance()
   {
-    if (isRedAlliance()) // initially not ! TODO
+    if (!isRedAlliance()) // initially not ! TODO
     {
       zeroGyro();
       //Set the pose 180 degrees
