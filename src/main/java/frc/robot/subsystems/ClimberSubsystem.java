@@ -23,8 +23,8 @@ public class ClimberSubsystem extends SubsystemBase {
         
         limit.forwardSoftLimit(ClimberConstants.FORWARD_LIMIT);
         limit.reverseSoftLimit(ClimberConstants.REVERSE_LIMIT);
-        limit.forwardSoftLimitEnabled(true);
-        limit.reverseSoftLimitEnabled(true);
+        limit.forwardSoftLimitEnabled(false); // TODO
+        limit.reverseSoftLimitEnabled(false); // TODO
 
         // config.apply(limit);
         m_motor.configure(config, com.revrobotics.spark.SparkBase.ResetMode.kResetSafeParameters, PersistMode.kPersistParameters);

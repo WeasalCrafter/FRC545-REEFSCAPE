@@ -7,13 +7,7 @@
         {
           "type": "path",
           "data": {
-            "pathName": "1m_forward"
-          }
-        },
-        {
-          "type": "named",
-          "data": {
-            "name": "test"
+            "pathName": "centerToReef"
           }
         }
       ]

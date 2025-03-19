@@ -29,8 +29,8 @@ public final class Constants
 
   public static final class AutonConstants
   {
-    public static final PIDConstants TRANSLATION_PID = new PIDConstants(0.5, 0, 0);
-    public static final PIDConstants ANGLE_PID       = new PIDConstants(0.01, 0, 0);
+    public static final PIDConstants TRANSLATION_PID = new PIDConstants(5.5, 0, 0);
+    public static final PIDConstants ANGLE_PID       = new PIDConstants(5, 0, 0);
   }
 
   public static final class DrivebaseConstants
@@ -43,16 +43,16 @@ public final class Constants
   public static class VisionConstants
   {
     // https://external-content.duckduckgo.com/iu/?u=https%3A%2F%2Fwww.best-microcontroller-projects.com%2Fimage-files%2Faircraft-roll-pitch-yaw-xyz-enh.jpg&f=1&nofb=1&ipt=ac25795fcd02d469477e44fc513971b36be4609b831093f83e534bd2a382961d&ipo=images
-    public static final String MAIN_CAM_NAME = "Camera_Module_v1";
+    public static final String MAIN_CAM_NAME = "HD_USB_Camera";
     public static final Rotation3d MAIN_CAM_ROTATION = new Rotation3d(
       0,  // Roll
-      0, // Units.degreesToRadians(90), // Pitch before was 0
+      Units.degreesToRadians(30), // Units.degreesToRadians(90), // Pitch before was 0
       0 // Yaw
     );
     public static final Translation3d MAIN_CAM_TRANSLATION = new Translation3d(
-      Units.inchesToMeters(15), // X
-      Units.inchesToMeters(0),  // Y
-      Units.inchesToMeters(9)   // Z
+      0.33, // X
+      -0.20,  // Y
+      0.97   // Z
     );
   }
 
@@ -72,9 +72,9 @@ public final class Constants
 
     public static final double POS_ZERO = 1;
     public static final double POS_ONE = 1;
-    public static final double POS_TWO = 4.5;
-    public static final double POS_THREE = 13.5;
-    public static final double POS_FOUR = 26.5;
+    public static final double POS_TWO = 4;
+    public static final double POS_THREE = 13;
+    public static final double POS_FOUR = 26;
 
     public static final PIDConstants PID_CONSTANTS = new PIDConstants(0.2,0.0,0.5);
 
@@ -103,7 +103,7 @@ public final class Constants
   {
     public static final int LEADER = 22;
     public static final int FOLLOWER = 23;
-    public static final double SPEED = 0.15; 
+    public static final double SPEED = 0.3; 
     public static final int LIMIT = 0;
 
     public static final int LASER_CAN = 24;

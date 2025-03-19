@@ -17,7 +17,6 @@ import edu.wpi.first.math.geometry.Transform3d;
 import edu.wpi.first.math.geometry.Translation3d;
 import edu.wpi.first.math.numbers.N1;
 import edu.wpi.first.math.numbers.N3;
-import edu.wpi.first.math.util.Units;
 import edu.wpi.first.networktables.NetworkTablesJNI;
 import edu.wpi.first.wpilibj.Alert;
 import edu.wpi.first.wpilibj.Alert.AlertType;
@@ -343,21 +342,9 @@ public class Vision
       VisionConstants.MAIN_CAM_NAME,
       VisionConstants.MAIN_CAM_ROTATION,
       VisionConstants.MAIN_CAM_TRANSLATION,
-      VecBuilder.fill(4, 4, 8), VecBuilder.fill(0.5, 0.5, 1));
-
-    // UPPER_CAM(
-    //   "HD_USB_Camera",
-    //   new Rotation3d(
-    //     0,
-    //     Units.degreesToRadians(-30.0),
-    //     0
-    //   ),
-    //   new Translation3d(
-    //     0.32,
-    //     0.18,
-    //     0.97
-    //   ),
-    //   VecBuilder.fill(4, 4, 8), VecBuilder.fill(0.5, 0.5, 1));
+      VecBuilder.fill(0.5, 0.5, 2), // VecBuilder.fill(4, 4, 8), lowered the standard deviations because the testing environment at island trees has one tag setup
+      VecBuilder.fill(0.5, 0.5, 1)
+    );
 
     /**
      * Latency alert to use when high latency is detected.
@@ -541,9 +528,9 @@ public class Vision
       {
         mostRecentTimestamp = Math.max(mostRecentTimestamp, result.getTimestampSeconds());
       }
-      if ((resultsList.isEmpty() || (currentTimestamp - mostRecentTimestamp >= debounceTime)) &&
-          (currentTimestamp - lastReadTimestamp) >= debounceTime)
-      {
+      // if ((resultsList.isEmpty() || (currentTimestamp - mostRecentTimestamp >= debounceTime)) &&
+      //     (currentTimestamp - lastReadTimestamp) >= debounceTime)
+      // {
         resultsList = Robot.isReal() ? camera.getAllUnreadResults() : cameraSim.getCamera().getAllUnreadResults();
         lastReadTimestamp = currentTimestamp;
         resultsList.sort((PhotonPipelineResult a, PhotonPipelineResult b) -> {
@@ -553,7 +540,7 @@ public class Vision
         {
           updateEstimatedGlobalPose();
         }
-      }
+      // }
     }
 
     /**
