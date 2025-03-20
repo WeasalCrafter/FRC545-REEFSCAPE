@@ -8,24 +8,11 @@
         "layouts": [],
         "containers": [
           {
-            "title": "Camera_Module_v1-processed",
-            "x": 0.0,
-            "y": 0.0,
-            "width": 512.0,
-            "height": 512.0,
-            "type": "Camera Stream",
-            "properties": {
-              "topic": "/CameraPublisher/Camera_Module_v1-processed",
-              "period": 0.06,
-              "rotation_turns": 0
-            }
-          },
-          {
             "title": "Field",
-            "x": 768.0,
+            "x": 896.0,
             "y": 0.0,
-            "width": 1152.0,
-            "height": 512.0,
+            "width": 1024.0,
+            "height": 640.0,
             "type": "Field",
             "properties": {
               "topic": "/SmartDashboard/Field",
@@ -41,27 +28,11 @@
             }
           },
           {
-            "title": "latencyMillis",
-            "x": 512.0,
-            "y": 256.0,
-            "width": 256.0,
-            "height": 256.0,
-            "type": "Graph",
-            "properties": {
-              "topic": "/photonvision/Camera_Module_v1/latencyMillis",
-              "period": 0.033,
-              "data_type": "double",
-              "time_displayed": 5.0,
-              "color": 4278238420,
-              "line_width": 2.0
-            }
-          },
-          {
             "title": "Auto Mode",
             "x": 512.0,
             "y": 0.0,
-            "width": 256.0,
-            "height": 256.0,
+            "width": 384.0,
+            "height": 128.0,
             "type": "ComboBox Chooser",
             "properties": {
               "topic": "/SmartDashboard/Auto Mode",
@@ -71,14 +42,41 @@
           },
           {
             "title": "FMSInfo",
-            "x": 0.0,
+            "x": 512.0,
             "y": 512.0,
-            "width": 512.0,
+            "width": 384.0,
             "height": 128.0,
             "type": "FMSInfo",
             "properties": {
               "topic": "/FMSInfo",
               "period": 0.06
+            }
+          },
+          {
+            "title": "photonvision_Port_1182_Output_MJPEG_Server",
+            "x": 0.0,
+            "y": 0.0,
+            "width": 512.0,
+            "height": 640.0,
+            "type": "Camera Stream",
+            "properties": {
+              "topic": "/CameraPublisher/photonvision_Port_1182_Output_MJPEG_Server",
+              "period": 0.06
+            }
+          },
+          {
+            "title": "swerve",
+            "x": 512.0,
+            "y": 128.0,
+            "width": 384.0,
+            "height": 384.0,
+            "type": "YAGSL Swerve Drive",
+            "properties": {
+              "topic": "/SmartDashboard/swerve",
+              "period": 0.06,
+              "show_robot_rotation": true,
+              "show_desired_states": true,
+              "angle_offset": 0.0
             }
           }
         ]

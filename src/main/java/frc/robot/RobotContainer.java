@@ -81,14 +81,6 @@ public class RobotContainer
                                                             .scaleTranslation(0.8)
                                                             .allianceRelativeControl(true);
 
-  SwerveInputStream adjustmentRelativeDrive = SwerveInputStream.of(drivebase.getSwerveDrive(),
-                                                            () -> -driverXbox.getLeftY(),
-                                                            () -> -driverXbox.getLeftX())
-                                                        .withControllerRotationAxis(driverXbox::getRightX)
-                                                        .deadband(OperatorConstants.DEADBAND)
-                                                        .scaleTranslation(0.8)
-                                                        .allianceRelativeControl(true);
-
 
   /**
    * Clone's the angular velocity input stream and converts it to a fieldRelative input stream.
