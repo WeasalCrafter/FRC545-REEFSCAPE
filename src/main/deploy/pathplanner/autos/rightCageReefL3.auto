@@ -7,7 +7,7 @@
         {
           "type": "path",
           "data": {
-            "pathName": "centerToReef"
+            "pathName": "rightCageToReef"
           }
         },
         {
@@ -44,6 +44,6 @@
     }
   },
   "resetOdom": true,
-  "folder": null,
+  "folder": "right",
   "choreoAuto": false
 }

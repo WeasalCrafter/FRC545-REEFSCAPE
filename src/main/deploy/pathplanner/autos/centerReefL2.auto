@@ -1,0 +1,49 @@
+{
+  "version": "2025.0",
+  "command": {
+    "type": "sequential",
+    "data": {
+      "commands": [
+        {
+          "type": "path",
+          "data": {
+            "pathName": "centerToReef"
+          }
+        },
+        {
+          "type": "named",
+          "data": {
+            "name": "elevatorPos2"
+          }
+        },
+        {
+          "type": "named",
+          "data": {
+            "name": "coralIntakeForward"
+          }
+        },
+        {
+          "type": "wait",
+          "data": {
+            "waitTime": 2.0
+          }
+        },
+        {
+          "type": "named",
+          "data": {
+            "name": "coralIntakeLock"
+          }
+        },
+        {
+          "type": "named",
+          "data": {
+            "name": "elevatorPos1"
+          }
+        }
+      ]
+    }
+  },
+  "resetOdom": true,
+  "folder": "center",
+  "choreoAuto": false
+}

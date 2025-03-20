@@ -7,13 +7,13 @@
         {
           "type": "path",
           "data": {
-            "pathName": "centerToReef"
+            "pathName": "rightCageToReef"
           }
         },
         {
           "type": "named",
           "data": {
-            "name": "elevatorPos4"
+            "name": "elevatorPos1"
           }
         },
         {
@@ -33,17 +33,11 @@
           "data": {
             "name": "coralIntakeLock"
           }
-        },
-        {
-          "type": "named",
-          "data": {
-            "name": "elevatorPos1"
-          }
         }
       ]
     }
   },
   "resetOdom": true,
-  "folder": null,
+  "folder": "left",
   "choreoAuto": false
 }

@@ -184,25 +184,18 @@ public class RobotContainer
 
     // Configure the trigger bindings
     
-    configureBindingsDebug();
     autoChooser = AutoBuilder.buildAutoChooser();
     SmartDashboard.putData("Auto Mode", autoChooser);
-    // configureDriverAndOperator();
+    //configureDriverAndOperator();
+    configureBindingsDebug();
   }
 
   private void configureBindingsDebug()
   {
-
-    Pose2d position = new Pose2d(
-      5.8,
-      4.1,
-      new Rotation2d(Units.degreesToRadians(-180))
-    );
-
     // (Condition) ? Return-On-True : Return-on-False
     drivebase.setDefaultCommand(!RobotBase.isSimulation() ?
-                                driveFieldOrientedAnglularVelocity :
-                                driveFieldOrientedAnglularVelocitySim);
+      driveFieldOrientedAnglularVelocity :
+      driveFieldOrientedAnglularVelocitySim);
 
     driverXbox.rightTrigger().onTrue(NamedCommands.getCommand("coralIntakeForward")).onFalse(NamedCommands.getCommand("coralIntakeLock"));
     driverXbox.rightBumper().onTrue(NamedCommands.getCommand("coralIntakeReverse")).onFalse(NamedCommands.getCommand("coralIntakeLock"));
@@ -214,7 +207,10 @@ public class RobotContainer
     driverXbox.pov(180).onTrue(positionThree);
     driverXbox.pov(270).onTrue(positionFour);
 
-    driverXbox.a().onTrue(drivebase.autoAlignReef()); 
+    //driverXbox.a().onTrue(drivebase.autoAlignReef(true)); 
+    driverXbox.a().and(driverXbox.leftBumper()).onTrue(drivebase.autoAlignReef(false));
+    driverXbox.a().and(driverXbox.rightBumper()).onTrue(drivebase.autoAlignReef(true));
+
     driverXbox.b().onTrue(NamedCommands.getCommand("coralIntakeWithLimit")); 
 
     driverXbox.x().whileTrue(Commands.runOnce(drivebase::lock, drivebase).repeatedly());
@@ -224,20 +220,21 @@ public class RobotContainer
 
   private void configureDriverAndOperator(){
     drivebase.setDefaultCommand(!RobotBase.isSimulation() ?
-                                driveFieldOrientedAnglularVelocity :
-                                driveFieldOrientedAnglularVelocitySim);
+      driveFieldOrientedAnglularVelocity :
+      driveFieldOrientedAnglularVelocitySim);
 
     climber.setDefaultCommand(climber.lock());
 
     // Driver Controls
-    driverXbox.a().onTrue(drivebase.autoAlignReef()); 
+
+    driverXbox.a().and(driverXbox.leftBumper()).onTrue(drivebase.autoAlignReef(false));
+    driverXbox.a().and(driverXbox.rightBumper()).onTrue(drivebase.autoAlignReef(true));
     driverXbox.b().onTrue(Commands.none());
     driverXbox.x().whileTrue(Commands.runOnce(drivebase::lock, drivebase).repeatedly());
     driverXbox.y().onTrue((Commands.runOnce(drivebase::zeroGyro)));
-    // driverXbox.y().onTrue((Commands.runOnce(drivebase::zeroGyroWithAlliance)));
 
-    driverXbox.rightTrigger().onTrue(climber.ascend());
-    driverXbox.leftTrigger().onTrue(climber.descend());
+    // driverXbox.rightTrigger().onTrue(climber.ascend());
+    // driverXbox.leftTrigger().onTrue(climber.descend());
 
     // Operator Controls
     operatorXbox.a().onTrue(NamedCommands.getCommand("coralIntakeWithLimit")); 
@@ -250,8 +247,8 @@ public class RobotContainer
     operatorXbox.pov(180).onTrue(positionThree);
     operatorXbox.pov(270).onTrue(positionFour);
 
-    operatorXbox.leftTrigger().onTrue(NamedCommands.getCommand("algaeIntakeForward")).onFalse(NamedCommands.getCommand("algaeIntakeLock"));
-    operatorXbox.leftBumper().onTrue(NamedCommands.getCommand("algaeIntakeReverse")).onFalse(NamedCommands.getCommand("algaeIntakeLock"));
+    // operatorXbox.leftTrigger().onTrue(NamedCommands.getCommand("algaeIntakeForward")).onFalse(NamedCommands.getCommand("algaeIntakeLock"));
+    // operatorXbox.leftBumper().onTrue(NamedCommands.getCommand("algaeIntakeReverse")).onFalse(NamedCommands.getCommand("algaeIntakeLock"));
     operatorXbox.rightBumper().onTrue(NamedCommands.getCommand("coralIntakeReverse")).onFalse(NamedCommands.getCommand("coralIntakeLock"));
     operatorXbox.rightTrigger().onTrue(NamedCommands.getCommand("coralIntakeForward")).onFalse(NamedCommands.getCommand("coralIntakeLock"));
   }

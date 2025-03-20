@@ -5,33 +5,15 @@
     "data": {
       "commands": [
         {
+          "type": "path",
+          "data": {
+            "pathName": "rightCageToReef"
+          }
+        },
+        {
           "type": "named",
           "data": {
             "name": "elevatorPos2"
-          }
-        },
-        {
-          "type": "named",
-          "data": {
-            "name": "armPosDown"
-          }
-        },
-        {
-          "type": "named",
-          "data": {
-            "name": "elevatorPos4"
-          }
-        },
-        {
-          "type": "named",
-          "data": {
-            "name": "algaeIntakeReverse"
-          }
-        },
-        {
-          "type": "path",
-          "data": {
-            "pathName": "centerToReef"
           }
         },
         {
@@ -43,7 +25,7 @@
         {
           "type": "wait",
           "data": {
-            "waitTime": 1.0
+            "waitTime": 2.0
           }
         },
         {
@@ -55,13 +37,13 @@
         {
           "type": "named",
           "data": {
-            "name": "algaeIntakeLock"
+            "name": "elevatorPos1"
           }
         }
       ]
     }
   },
   "resetOdom": true,
-  "folder": null,
+  "folder": "right",
   "choreoAuto": false
 }
