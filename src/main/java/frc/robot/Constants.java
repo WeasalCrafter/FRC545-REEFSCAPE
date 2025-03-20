@@ -50,9 +50,9 @@ public final class Constants
       0 // Yaw
     );
     public static final Translation3d MAIN_CAM_TRANSLATION = new Translation3d( // Meters
-      0.33, // X
-      -0.20,  // Y
-      0.97   // Z
+      0.31, // X
+      -0.18,  // Y
+      0.98   // Z
     );
   }
 

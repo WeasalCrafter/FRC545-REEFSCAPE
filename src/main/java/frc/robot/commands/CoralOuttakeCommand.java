@@ -4,23 +4,23 @@ import edu.wpi.first.wpilibj2.command.Command;
 import frc.robot.Constants.CoralIntakeConstants;
 import frc.robot.subsystems.CoralIntakeSubsystem;
 
-public class CoralIntakeCommand extends Command{
+public class CoralOuttakeCommand extends Command{
     CoralIntakeSubsystem coralIntake;
     Double targetPosition;
 
-    public CoralIntakeCommand(CoralIntakeSubsystem coralIntake){
+    public CoralOuttakeCommand(CoralIntakeSubsystem coralIntake){
         this.coralIntake = coralIntake;
         addRequirements(coralIntake);
     }
 
     @Override
     public void initialize(){
-        coralIntake.changeSpeed(CoralIntakeConstants.SLOW_SPEED);
+        coralIntake.changeSpeed(CoralIntakeConstants.HIGH_SPEED);
     }
 
     @Override
     public boolean isFinished() {
-        // System.out.println(coralIntake.laserCan.getMeasurement().distance_mm);
-        return (CoralIntakeConstants.THRESHOLD_MM >= coralIntake.laserCan.getMeasurement().distance_mm);
+        System.out.println(coralIntake.laserCan.getMeasurement().distance_mm);
+        return ((CoralIntakeConstants.THRESHOLD_MM) < coralIntake.laserCan.getMeasurement().distance_mm);
     }
 }

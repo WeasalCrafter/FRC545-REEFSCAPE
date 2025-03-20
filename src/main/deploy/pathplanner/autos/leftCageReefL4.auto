@@ -19,25 +19,26 @@
         {
           "type": "named",
           "data": {
-            "name": "coralIntakeForward"
+            "name": "coralOuttakeWithLimit"
           }
         },
         {
-          "type": "wait",
+          "type": "parallel",
           "data": {
-            "waitTime": 2.0
-          }
-        },
-        {
-          "type": "named",
-          "data": {
-            "name": "coralIntakeLock"
-          }
-        },
-        {
-          "type": "named",
-          "data": {
-            "name": "elevatorPos1"
+            "commands": [
+              {
+                "type": "named",
+                "data": {
+                  "name": "elevatorPos1"
+                }
+              },
+              {
+                "type": "path",
+                "data": {
+                  "pathName": "leftCageBack"
+                }
+              }
+            ]
           }
         }
       ]

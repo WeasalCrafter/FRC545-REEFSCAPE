@@ -24,6 +24,7 @@ import frc.robot.Constants.ElevatorConstants;
 import frc.robot.Constants.OperatorConstants;
 import frc.robot.commands.ArmPositionCommand;
 import frc.robot.commands.CoralIntakeCommand;
+import frc.robot.commands.CoralOuttakeCommand;
 import frc.robot.commands.ElevatorPositionCommand;
 import frc.robot.commands.swervedrive.drivebase.AbsoluteDriveAdv;
 import frc.robot.subsystems.AlgaeIntakeSubsystem;
@@ -74,12 +75,22 @@ public class RobotContainer
    * Converts driver input into a field-relative ChassisSpeeds that is controlled by angular velocity.
    */
   SwerveInputStream driveAngularVelocity = SwerveInputStream.of(drivebase.getSwerveDrive(),
-                                                                () -> driverXbox.getLeftY(),
-                                                                () -> driverXbox.getLeftX())
-                                                            .withControllerRotationAxis(driverXbox::getRightX)
+                                                                () -> -driverXbox.getLeftY(),
+                                                                () -> -driverXbox.getLeftX())
+                                                            .withControllerRotationAxis(() -> -driverXbox.getRightX())
+                                                            // .withControllerRotationAxis(driverXbox::getRightX)
                                                             .deadband(OperatorConstants.DEADBAND)
                                                             .scaleTranslation(0.8)
                                                             .allianceRelativeControl(true);
+
+    SwerveInputStream driveRobotRelativeAngularVelocity = SwerveInputStream.of(drivebase.getSwerveDrive(),
+                                                            () -> -driverXbox.getLeftY(),
+                                                            () -> -driverXbox.getLeftX())
+                                                          .withControllerRotationAxis(() -> -driverXbox.getRightX())
+                                                          // .withControllerRotationAxis(driverXbox::getRightX)
+                                                          .deadband(OperatorConstants.DEADBAND)
+                                                          .scaleTranslation(0.2)
+                                                          .allianceRelativeControl(true);
 
 
   /**
@@ -107,8 +118,8 @@ public class RobotContainer
   Command driveSetpointGen = drivebase.driveWithSetpointGeneratorFieldRelative(driveDirectAngle);
 
   SwerveInputStream driveAngularVelocitySim = SwerveInputStream.of(drivebase.getSwerveDrive(),
-                                                                   () -> -driverXbox.getLeftY(),
-                                                                   () -> -driverXbox.getLeftX())
+                                                                   () -> driverXbox.getLeftY(),
+                                                                   () -> driverXbox.getLeftX())
                                                                .withControllerRotationAxis(() -> driverXbox.getRawAxis(2))
                                                                .deadband(OperatorConstants.DEADBAND)
                                                                .scaleTranslation(0.8)
@@ -132,20 +143,20 @@ public class RobotContainer
   // Other than when the elevator is at its down position the arm should always be upwards, and 
   // for now lets add a 2 second delay between the arm reaching its point and the elevator moving.
   SequentialCommandGroup positionOne = new SequentialCommandGroup(
-    new ArmPositionCommand(arm, ArmConstants.POS_UP),
+    //new ArmPositionCommand(arm, ArmConstants.POS_UP),
     new ElevatorPositionCommand(elevator, ElevatorConstants.POS_ONE)
   );
   SequentialCommandGroup positionTwo = new SequentialCommandGroup(
-    new ElevatorPositionCommand(elevator, ElevatorConstants.POS_TWO),
-    new ArmPositionCommand(arm, ArmConstants.POS_MID)
+    new ElevatorPositionCommand(elevator, ElevatorConstants.POS_TWO)
+    //new ArmPositionCommand(arm, ArmConstants.POS_MID)
   );
   SequentialCommandGroup positionThree = new SequentialCommandGroup(
-    new ElevatorPositionCommand(elevator, ElevatorConstants.POS_THREE),
-    new ArmPositionCommand(arm, ArmConstants.POS_DOWN)
+    new ElevatorPositionCommand(elevator, ElevatorConstants.POS_THREE)
+    //new ArmPositionCommand(arm, ArmConstants.POS_DOWN)
   );
   SequentialCommandGroup positionFour = new SequentialCommandGroup(
-    new ElevatorPositionCommand(elevator, ElevatorConstants.POS_FOUR),
-    new ArmPositionCommand(arm, ArmConstants.POS_DOWN)
+    new ElevatorPositionCommand(elevator, ElevatorConstants.POS_FOUR)
+    //new ArmPositionCommand(arm, ArmConstants.POS_DOWN)
   );
 
   public RobotContainer()
@@ -164,6 +175,7 @@ public class RobotContainer
     // NamedCommands.registerCommand("armPosMid", new ArmPositionCommand(arm, ArmConstants.POS_MID));
     NamedCommands.registerCommand("armPosDown", new ArmPositionCommand(arm, ArmConstants.POS_DOWN));
 
+    NamedCommands.registerCommand("coralOuttakeWithLimit", new CoralOuttakeCommand(coralIntake).andThen(coralIntake.lock()));
     NamedCommands.registerCommand("coralIntakeWithLimit", new CoralIntakeCommand(coralIntake).andThen(coralIntake.lock()));
     NamedCommands.registerCommand("coralIntakeForward", coralIntake.forward());
     NamedCommands.registerCommand("coralIntakeReverse", coralIntake.reverse());
@@ -177,8 +189,8 @@ public class RobotContainer
     
     autoChooser = AutoBuilder.buildAutoChooser();
     SmartDashboard.putData("Auto Mode", autoChooser);
-    //configureDriverAndOperator();
-    configureBindingsDebug();
+    configureDriverAndOperator();
+    //configureBindingsDebug();
   }
 
   private void configureBindingsDebug()
@@ -201,7 +213,7 @@ public class RobotContainer
     driverXbox.a().and(driverXbox.leftBumper()).onTrue(drivebase.autoAlignReef(false));
     driverXbox.a().and(driverXbox.rightBumper()).onTrue(drivebase.autoAlignReef(true));
 
-    driverXbox.b().onTrue(NamedCommands.getCommand("coralIntakeWithLimit")); 
+    driverXbox.b().onTrue(NamedCommands.getCommand("coralOuttakeWithLimit")); 
 
     driverXbox.x().whileTrue(Commands.runOnce(drivebase::lock, drivebase).repeatedly());
     driverXbox.y().onTrue((Commands.runOnce(drivebase::zeroGyro)));
@@ -227,7 +239,7 @@ public class RobotContainer
 
     // Operator Controls
     operatorXbox.a().onTrue(NamedCommands.getCommand("coralIntakeWithLimit")); 
-    operatorXbox.b().onTrue(Commands.none());
+    operatorXbox.b().onTrue(NamedCommands.getCommand("coralOuttakeWithLimit")); 
     operatorXbox.x().whileTrue(Commands.runOnce(drivebase::lock, drivebase).repeatedly());
     operatorXbox.y().onTrue(Commands.none());
 
