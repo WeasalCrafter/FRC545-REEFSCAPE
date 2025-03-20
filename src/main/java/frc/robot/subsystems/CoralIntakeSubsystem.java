@@ -69,11 +69,11 @@ public class CoralIntakeSubsystem extends SubsystemBase{
     }
 
     public Command forward(){
-        return this.runOnce(() -> changeSpeed(CoralIntakeConstants.SPEED));
+        return this.runOnce(() -> changeSpeed(CoralIntakeConstants.HIGH_SPEED));
     }
     
     public Command reverse(){
-        return this.runOnce(() -> changeSpeed(-CoralIntakeConstants.SPEED));
+        return this.runOnce(() -> changeSpeed(-CoralIntakeConstants.SLOW_SPEED));
     }
     
     public Command lock(){

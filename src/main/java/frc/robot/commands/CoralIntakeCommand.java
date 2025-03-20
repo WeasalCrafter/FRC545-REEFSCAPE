@@ -15,7 +15,7 @@ public class CoralIntakeCommand extends Command{
 
     @Override
     public void initialize(){
-        coralIntake.changeSpeed(CoralIntakeConstants.SPEED);
+        coralIntake.changeSpeed(CoralIntakeConstants.SLOW_SPEED);
     }
 
     @Override

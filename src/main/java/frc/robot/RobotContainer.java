@@ -74,8 +74,8 @@ public class RobotContainer
    * Converts driver input into a field-relative ChassisSpeeds that is controlled by angular velocity.
    */
   SwerveInputStream driveAngularVelocity = SwerveInputStream.of(drivebase.getSwerveDrive(),
-                                                                () -> driverXbox.getLeftY() * -1,
-                                                                () -> driverXbox.getLeftX() * -1)
+                                                                () -> driverXbox.getLeftY(),
+                                                                () -> driverXbox.getLeftX())
                                                             .withControllerRotationAxis(driverXbox::getRightX)
                                                             .deadband(OperatorConstants.DEADBAND)
                                                             .scaleTranslation(0.8)
@@ -156,7 +156,6 @@ public class RobotContainer
     new ArmPositionCommand(arm, ArmConstants.POS_DOWN)
   );
 
-
   public RobotContainer()
   { 
     DriverStation.silenceJoystickConnectionWarning(true);
@@ -199,15 +198,14 @@ public class RobotContainer
 
     driverXbox.rightTrigger().onTrue(NamedCommands.getCommand("coralIntakeForward")).onFalse(NamedCommands.getCommand("coralIntakeLock"));
     driverXbox.rightBumper().onTrue(NamedCommands.getCommand("coralIntakeReverse")).onFalse(NamedCommands.getCommand("coralIntakeLock"));
-    driverXbox.leftTrigger().onTrue(NamedCommands.getCommand("algaeIntakeForward")).onFalse(NamedCommands.getCommand("algaeIntakeLock"));
-    driverXbox.leftBumper().onTrue(NamedCommands.getCommand("algaeIntakeReverse")).onFalse(NamedCommands.getCommand("algaeIntakeLock"));
+    // driverXbox.leftTrigger().onTrue(NamedCommands.getCommand("algaeIntakeForward")).onFalse(NamedCommands.getCommand("algaeIntakeLock"));
+    // driverXbox.leftBumper().onTrue(NamedCommands.getCommand("algaeIntakeReverse")).onFalse(NamedCommands.getCommand("algaeIntakeLock"));
 
     driverXbox.pov(0).onTrue(positionOne);
     driverXbox.pov(90).onTrue(positionTwo);
     driverXbox.pov(180).onTrue(positionThree);
     driverXbox.pov(270).onTrue(positionFour);
 
-    //driverXbox.a().onTrue(drivebase.autoAlignReef(true)); 
     driverXbox.a().and(driverXbox.leftBumper()).onTrue(drivebase.autoAlignReef(false));
     driverXbox.a().and(driverXbox.rightBumper()).onTrue(drivebase.autoAlignReef(true));
 
@@ -215,7 +213,6 @@ public class RobotContainer
 
     driverXbox.x().whileTrue(Commands.runOnce(drivebase::lock, drivebase).repeatedly());
     driverXbox.y().onTrue((Commands.runOnce(drivebase::zeroGyro)));
-    // driverXbox.y().onTrue((Commands.runOnce(drivebase::zeroGyroWithAlliance)));
   }
 
   private void configureDriverAndOperator(){
