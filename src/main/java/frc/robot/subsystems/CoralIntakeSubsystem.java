@@ -8,7 +8,6 @@ import com.revrobotics.spark.config.SparkMaxConfig;
 
 import au.grapplerobotics.ConfigurationFailedException;
 import au.grapplerobotics.LaserCan;
-import au.grapplerobotics.interfaces.LaserCanInterface.Measurement;
 import au.grapplerobotics.interfaces.LaserCanInterface.RangingMode;
 import au.grapplerobotics.interfaces.LaserCanInterface.RegionOfInterest;
 import au.grapplerobotics.interfaces.LaserCanInterface.TimingBudget;
@@ -69,7 +68,7 @@ public class CoralIntakeSubsystem extends SubsystemBase{
     }
 
     public Command forward(){
-        return this.runOnce(() -> changeSpeed(CoralIntakeConstants.HIGH_SPEED));
+        return this.runOnce(() -> changeSpeed(1.5 * CoralIntakeConstants.SLOW_SPEED));
     }
     
     public Command reverse(){

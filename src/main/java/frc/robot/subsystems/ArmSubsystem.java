@@ -1,6 +1,5 @@
 package frc.robot.subsystems;
 
-import com.revrobotics.AbsoluteEncoder;
 import com.revrobotics.RelativeEncoder;
 import com.revrobotics.spark.ClosedLoopSlot;
 import com.revrobotics.spark.SparkBase.ControlType;
@@ -63,7 +62,7 @@ public class ArmSubsystem extends SubsystemBase{
 
     m_pivot.configure(pivotConfig, ResetMode.kResetSafeParameters, PersistMode.kNoPersistParameters);
 
-    pivotController.setReference(ArmConstants.POS_DOWN, ControlType.kPosition, ClosedLoopSlot.kSlot0);
+    pivotController.setReference(ArmConstants.POS_UP, ControlType.kPosition, ClosedLoopSlot.kSlot0);
   }
 
   public void setPosition(Double targetPosition){

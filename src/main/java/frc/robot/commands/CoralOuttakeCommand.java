@@ -20,7 +20,7 @@ public class CoralOuttakeCommand extends Command{
 
     @Override
     public boolean isFinished() {
-        System.out.println(coralIntake.laserCan.getMeasurement().distance_mm);
+        // System.out.println(coralIntake.laserCan.getMeasurement().distance_mm);
         return ((CoralIntakeConstants.THRESHOLD_MM) < coralIntake.laserCan.getMeasurement().distance_mm);
     }
 }

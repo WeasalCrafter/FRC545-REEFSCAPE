@@ -7,9 +7,6 @@ package frc.robot;
 import com.pathplanner.lib.auto.AutoBuilder;
 import com.pathplanner.lib.auto.NamedCommands;
 import edu.wpi.first.math.MathUtil;
-import edu.wpi.first.math.geometry.Pose2d;
-import edu.wpi.first.math.geometry.Rotation2d;
-import edu.wpi.first.math.util.Units;
 import edu.wpi.first.wpilibj.DriverStation;
 import edu.wpi.first.wpilibj.Filesystem;
 import edu.wpi.first.wpilibj.RobotBase;
@@ -29,7 +26,6 @@ import frc.robot.commands.ElevatorPositionCommand;
 import frc.robot.commands.swervedrive.drivebase.AbsoluteDriveAdv;
 import frc.robot.subsystems.AlgaeIntakeSubsystem;
 import frc.robot.subsystems.ArmSubsystem;
-import frc.robot.subsystems.ClimberSubsystem;
 import frc.robot.subsystems.ElevatorSubsystem;
 import frc.robot.subsystems.CoralIntakeSubsystem;
 import frc.robot.subsystems.swervedrive.SwerveSubsystem;
@@ -50,7 +46,6 @@ public class RobotContainer
   private final ArmSubsystem arm = new ArmSubsystem();
   private final CoralIntakeSubsystem coralIntake = new CoralIntakeSubsystem();
   private final AlgaeIntakeSubsystem algaeIntake = new AlgaeIntakeSubsystem();
-  private final ClimberSubsystem climber = new ClimberSubsystem();
 
   // Applies deadbands and inverts controls because joysticks
   // are back-right positive while robot
@@ -172,7 +167,6 @@ public class RobotContainer
     NamedCommands.registerCommand("elevatorPos4", new ElevatorPositionCommand(elevator, ElevatorConstants.POS_FOUR));
 
     NamedCommands.registerCommand("armPosUp", new ArmPositionCommand(arm, ArmConstants.POS_UP));
-    // NamedCommands.registerCommand("armPosMid", new ArmPositionCommand(arm, ArmConstants.POS_MID));
     NamedCommands.registerCommand("armPosDown", new ArmPositionCommand(arm, ArmConstants.POS_DOWN));
 
     NamedCommands.registerCommand("coralOuttakeWithLimit", new CoralOuttakeCommand(coralIntake).andThen(coralIntake.lock()));
@@ -200,10 +194,10 @@ public class RobotContainer
       driveFieldOrientedAnglularVelocity :
       driveFieldOrientedAnglularVelocitySim);
 
+    driverXbox.leftTrigger().onTrue(NamedCommands.getCommand("algaeIntakeForward")).onFalse(NamedCommands.getCommand("algaeIntakeLock"));
+    driverXbox.leftBumper().onTrue(NamedCommands.getCommand("algaeIntakeReverse")).onFalse(NamedCommands.getCommand("algaeIntakeLock"));
     driverXbox.rightTrigger().onTrue(NamedCommands.getCommand("coralIntakeForward")).onFalse(NamedCommands.getCommand("coralIntakeLock"));
     driverXbox.rightBumper().onTrue(NamedCommands.getCommand("coralIntakeReverse")).onFalse(NamedCommands.getCommand("coralIntakeLock"));
-    // driverXbox.leftTrigger().onTrue(NamedCommands.getCommand("algaeIntakeForward")).onFalse(NamedCommands.getCommand("algaeIntakeLock"));
-    // driverXbox.leftBumper().onTrue(NamedCommands.getCommand("algaeIntakeReverse")).onFalse(NamedCommands.getCommand("algaeIntakeLock"));
 
     driverXbox.pov(0).onTrue(positionOne);
     driverXbox.pov(90).onTrue(positionTwo);
@@ -212,38 +206,35 @@ public class RobotContainer
 
     driverXbox.a().and(driverXbox.leftBumper()).onTrue(drivebase.autoAlignReef(false));
     driverXbox.a().and(driverXbox.rightBumper()).onTrue(drivebase.autoAlignReef(true));
-
     driverXbox.b().onTrue(NamedCommands.getCommand("coralOuttakeWithLimit")); 
-
     driverXbox.x().whileTrue(Commands.runOnce(drivebase::lock, drivebase).repeatedly());
     driverXbox.y().onTrue((Commands.runOnce(drivebase::zeroGyro)));
   }
 
   private void configureDriverAndOperator(){
-    drivebase.setDefaultCommand(!RobotBase.isSimulation() ?
-      driveFieldOrientedAnglularVelocity :
-      driveFieldOrientedAnglularVelocitySim);
 
-    climber.setDefaultCommand(climber.lock());
-
-    // Driver Controls
+    // ---------------------------------------------------------------------------------------------------------------------------
+    // ----------------------------------------------------- Driver Controls -----------------------------------------------------
+    // ---------------------------------------------------------------------------------------------------------------------------
 
     driverXbox.a().and(driverXbox.leftBumper()).onTrue(drivebase.autoAlignReef(false));
     driverXbox.a().and(driverXbox.rightBumper()).onTrue(drivebase.autoAlignReef(true));
     driverXbox.b().onTrue(Commands.none());
     driverXbox.x().whileTrue(Commands.runOnce(drivebase::lock, drivebase).repeatedly());
     driverXbox.y().onTrue((Commands.runOnce(drivebase::zeroGyro)));
-    // driverXbox.rightTrigger().onTrue(climber.ascend());
-    // driverXbox.leftTrigger().onTrue(climber.descend());
 
-    // Operator Controls
+    drivebase.setDefaultCommand(!RobotBase.isSimulation() ?
+      driveFieldOrientedAnglularVelocity :
+      driveFieldOrientedAnglularVelocitySim);
+
+    // ---------------------------------------------------------------------------------------------------------------------------
+    // ---------------------------------------------------- Operator Controls ----------------------------------------------------
+    // ---------------------------------------------------------------------------------------------------------------------------
+
     operatorXbox.a().onTrue(NamedCommands.getCommand("coralIntakeWithLimit")); 
     operatorXbox.b().onTrue(NamedCommands.getCommand("coralOuttakeWithLimit")); 
-    // operatorXbox.x().whileTrue(Commands.runOnce(drivebase::lock, drivebase).repeatedly());
-    // operatorXbox.y().onTrue(Commands.none());
     operatorXbox.x().onTrue(NamedCommands.getCommand("armPosDown"));
     operatorXbox.y().onTrue(NamedCommands.getCommand("armPosUp"));
-
 
     operatorXbox.pov(0).onTrue(positionOne);
     operatorXbox.pov(90).onTrue(positionTwo);
@@ -276,10 +267,6 @@ public class RobotContainer
 
   public ElevatorSubsystem getElevator(){
     return elevator;
-  }
-
-  public ClimberSubsystem getClimber(){
-    return climber;
   }
 
   public ArmSubsystem getArm(){
