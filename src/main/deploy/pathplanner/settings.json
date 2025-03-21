@@ -3,9 +3,11 @@
   "robotLength": 0.89,
   "holonomicMode": true,
   "pathFolders": [
-    "reef",
+    "reefToHuman",
     "leave",
-    "setpoints"
+    "reefBack",
+    "setpoints",
+    "toReef"
   ],
   "autoFolders": [
     "left",

@@ -233,15 +233,17 @@ public class RobotContainer
     driverXbox.b().onTrue(Commands.none());
     driverXbox.x().whileTrue(Commands.runOnce(drivebase::lock, drivebase).repeatedly());
     driverXbox.y().onTrue((Commands.runOnce(drivebase::zeroGyro)));
-
     // driverXbox.rightTrigger().onTrue(climber.ascend());
     // driverXbox.leftTrigger().onTrue(climber.descend());
 
     // Operator Controls
     operatorXbox.a().onTrue(NamedCommands.getCommand("coralIntakeWithLimit")); 
     operatorXbox.b().onTrue(NamedCommands.getCommand("coralOuttakeWithLimit")); 
-    operatorXbox.x().whileTrue(Commands.runOnce(drivebase::lock, drivebase).repeatedly());
-    operatorXbox.y().onTrue(Commands.none());
+    // operatorXbox.x().whileTrue(Commands.runOnce(drivebase::lock, drivebase).repeatedly());
+    // operatorXbox.y().onTrue(Commands.none());
+    operatorXbox.x().onTrue(NamedCommands.getCommand("armPosDown"));
+    operatorXbox.y().onTrue(NamedCommands.getCommand("armPosUp"));
+
 
     operatorXbox.pov(0).onTrue(positionOne);
     operatorXbox.pov(90).onTrue(positionTwo);
@@ -288,7 +290,7 @@ public class RobotContainer
     return coralIntake;
   }
 
-  // public AlgaeIntakeSubsystem getAlgaeIntake(){
-  //   return algaeIntake;
-  // }
+  public AlgaeIntakeSubsystem getAlgaeIntake(){
+    return algaeIntake;
+  }
 }

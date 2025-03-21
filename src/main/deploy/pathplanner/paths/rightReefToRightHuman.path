@@ -3,32 +3,37 @@
   "waypoints": [
     {
       "anchor": {
-        "x": 5.801114978348913,
-        "y": 4.178826190298846
+        "x": 5.2823190789456635,
+        "y": 2.9858552631584865
       },
       "prevControl": null,
       "nextControl": {
-        "x": 6.0842701001745905,
-        "y": 4.177012224604281
+        "x": 5.234210526315789,
+        "y": 2.196875
       },
       "isLocked": false,
       "linkedName": null
     },
     {
       "anchor": {
-        "x": 6.855832354319988,
-        "y": 4.172354548703433
+        "x": 1.2285613984108898,
+        "y": 0.9696572108136343
       },
       "prevControl": {
-        "x": 6.57385495888871,
-        "y": 4.161660258947942
+        "x": 2.2899671052631576,
+        "y": 2.1487664473684207
       },
       "nextControl": null,
       "isLocked": false,
       "linkedName": null
     }
   ],
-  "rotationTargets": [],
+  "rotationTargets": [
+    {
+      "waypointRelativePos": 0.6965408805031438,
+      "rotationDegrees": 54.91200557488282
+    }
+  ],
   "constraintZones": [],
   "pointTowardsZones": [],
   "eventMarkers": [],
@@ -42,13 +47,13 @@
   },
   "goalEndState": {
     "velocity": 0,
-    "rotation": 180.0
+    "rotation": 54.462322208025604
   },
   "reversed": false,
-  "folder": "reefBack",
+  "folder": "reefToHuman",
   "idealStartingState": {
     "velocity": 0,
-    "rotation": 180.0
+    "rotation": 122.2756443145777
   },
   "useDefaultConstraints": true
 }
