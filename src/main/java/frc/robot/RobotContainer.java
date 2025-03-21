@@ -49,7 +49,7 @@ public class RobotContainer
   private final ElevatorSubsystem elevator = new ElevatorSubsystem();
   private final ArmSubsystem arm = new ArmSubsystem();
   private final CoralIntakeSubsystem coralIntake = new CoralIntakeSubsystem();
-  //private final AlgaeIntakeSubsystem algaeIntake = new AlgaeIntakeSubsystem();
+  private final AlgaeIntakeSubsystem algaeIntake = new AlgaeIntakeSubsystem();
   private final ClimberSubsystem climber = new ClimberSubsystem();
 
   // Applies deadbands and inverts controls because joysticks
@@ -143,8 +143,8 @@ public class RobotContainer
   // Other than when the elevator is at its down position the arm should always be upwards, and 
   // for now lets add a 2 second delay between the arm reaching its point and the elevator moving.
   SequentialCommandGroup positionOne = new SequentialCommandGroup(
-    //new ArmPositionCommand(arm, ArmConstants.POS_UP),
-    new ElevatorPositionCommand(elevator, ElevatorConstants.POS_ONE)
+    new ArmPositionCommand(arm, ArmConstants.POS_UP)
+    //new ElevatorPositionCommand(elevator, ElevatorConstants.POS_ONE)
   );
   SequentialCommandGroup positionTwo = new SequentialCommandGroup(
     new ElevatorPositionCommand(elevator, ElevatorConstants.POS_TWO)
@@ -181,9 +181,9 @@ public class RobotContainer
     NamedCommands.registerCommand("coralIntakeReverse", coralIntake.reverse());
     NamedCommands.registerCommand("coralIntakeLock", coralIntake.lock());
 
-    //NamedCommands.registerCommand("algaeIntakeForward", algaeIntake.forward());
-    //NamedCommands.registerCommand("algaeIntakeReverse", algaeIntake.reverse());
-    //NamedCommands.registerCommand("algaeIntakeLock", algaeIntake.lock());
+    NamedCommands.registerCommand("algaeIntakeForward", algaeIntake.forward());
+    NamedCommands.registerCommand("algaeIntakeReverse", algaeIntake.reverse());
+    NamedCommands.registerCommand("algaeIntakeLock", algaeIntake.lock());
 
     // Configure the trigger bindings
     
@@ -248,8 +248,8 @@ public class RobotContainer
     operatorXbox.pov(180).onTrue(positionThree);
     operatorXbox.pov(270).onTrue(positionFour);
 
-    // operatorXbox.leftTrigger().onTrue(NamedCommands.getCommand("algaeIntakeForward")).onFalse(NamedCommands.getCommand("algaeIntakeLock"));
-    // operatorXbox.leftBumper().onTrue(NamedCommands.getCommand("algaeIntakeReverse")).onFalse(NamedCommands.getCommand("algaeIntakeLock"));
+    operatorXbox.leftTrigger().onTrue(NamedCommands.getCommand("algaeIntakeForward")).onFalse(NamedCommands.getCommand("algaeIntakeLock"));
+    operatorXbox.leftBumper().onTrue(NamedCommands.getCommand("algaeIntakeReverse")).onFalse(NamedCommands.getCommand("algaeIntakeLock"));
     operatorXbox.rightBumper().onTrue(NamedCommands.getCommand("coralIntakeReverse")).onFalse(NamedCommands.getCommand("coralIntakeLock"));
     operatorXbox.rightTrigger().onTrue(NamedCommands.getCommand("coralIntakeForward")).onFalse(NamedCommands.getCommand("coralIntakeLock"));
   }

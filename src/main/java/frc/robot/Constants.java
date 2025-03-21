@@ -88,9 +88,9 @@ public final class Constants
   {
     public static final int PIVOT = 30;
 
-    public static final double POS_UP = -15;
+    public static final double POS_UP = -44;
     public static final double POS_MID = 29;
-    public static final double POS_DOWN = 29;
+    public static final double POS_DOWN = -28;
 
     public static final PIDConstants PID_CONSTANTS = new PIDConstants(0.03,0,0.03,0);
     public static final double MAX_SPEED = 0.1;
@@ -115,7 +115,7 @@ public final class Constants
   {
     public static final int LEADER = 31;
     public static final int FOLLOWER = 32;  
-    public static final double SPEED = 0.2; // TODO
+    public static final double SPEED = 0.5; // TODO
   }
 
   public static class ClimberConstants 
