@@ -48,7 +48,7 @@
   "folder": "humanToReef",
   "idealStartingState": {
     "velocity": 0,
-    "rotation": -53.87084298745433
+    "rotation": -53.87084298745434
   },
   "useDefaultConstraints": true
 }

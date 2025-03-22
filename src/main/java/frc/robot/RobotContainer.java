@@ -249,8 +249,7 @@ public class RobotContainer
     // operatorXbox.b().onTrue(NamedCommands.getCommand("coralOuttakeWithLimit")); 
     // operatorXbox.x().onTrue(NamedCommands.getCommand("armPosDown"));
     // operatorXbox.y().onTrue(NamedCommands.getCommand("armPosUp"));
-    operatorXbox.y().onTrue(NamedCommands.getCommand("distance"));
-
+    // operatorXbox.y().onTrue(NamedCommands.getCommand("distance"));
 
     operatorXbox.pov(0).onTrue(positionOne);
     operatorXbox.pov(90).onTrue(positionTwo);

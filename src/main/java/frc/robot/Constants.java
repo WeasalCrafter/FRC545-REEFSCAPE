@@ -74,7 +74,7 @@ public final class Constants
     public static final double POS_ONE = 0;
     public static final double POS_TWO = 4;
     public static final double POS_THREE = 13;
-    public static final double POS_FOUR = 26.5;
+    public static final double POS_FOUR = 26;
     public static final double POS_DEFAULT = POS_ONE;
 
     public static final double TOLERANCE = 2;
@@ -105,10 +105,9 @@ public final class Constants
     public static final int FOLLOWER = 23;
     public static final int LASER_CAN = 24;
 
-    public static final int LIMIT = 0;
-    public static final double THRESHOLD_MM = 20;
+    public static final double THRESHOLD_MM = 12;
 
-    public static final double HIGH_SPEED = 0.3; 
+    public static final double HIGH_SPEED = 0.2; // 0.3
     public static final double SLOW_SPEED = 0.1; 
   }
 
