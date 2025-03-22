@@ -7,7 +7,7 @@
         {
           "type": "path",
           "data": {
-            "pathName": "centerToReef"
+            "pathName": "leftCageToReef"
           }
         },
         {
@@ -17,40 +17,27 @@
           }
         },
         {
-          "type": "wait",
-          "data": {
-            "waitTime": 0.5
-          }
-        },
-        {
           "type": "named",
           "data": {
             "name": "coralOuttakeWithLimit"
           }
         },
         {
-          "type": "parallel",
+          "type": "named",
           "data": {
-            "commands": [
-              {
-                "type": "named",
-                "data": {
-                  "name": "elevatorPos1"
-                }
-              },
-              {
-                "type": "path",
-                "data": {
-                  "pathName": "centerReefBack"
-                }
-              }
-            ]
+            "name": "elevatorPos1"
+          }
+        },
+        {
+          "type": "path",
+          "data": {
+            "pathName": "leftReefToLeftHuman"
           }
         }
       ]
     }
   },
   "resetOdom": true,
-  "folder": "center",
+  "folder": "tests",
   "choreoAuto": false
 }

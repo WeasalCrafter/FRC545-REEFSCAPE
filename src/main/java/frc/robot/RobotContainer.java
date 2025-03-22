@@ -15,6 +15,7 @@ import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.Commands;
 import edu.wpi.first.wpilibj2.command.SequentialCommandGroup;
+import edu.wpi.first.wpilibj2.command.WaitCommand;
 import edu.wpi.first.wpilibj2.command.button.CommandXboxController;
 import frc.robot.Constants.ArmConstants;
 import frc.robot.Constants.ElevatorConstants;
@@ -24,6 +25,7 @@ import frc.robot.commands.CoralIntakeCommand;
 import frc.robot.commands.CoralOuttakeCommand;
 import frc.robot.commands.ElevatorPositionCommand;
 import frc.robot.commands.swervedrive.drivebase.AbsoluteDriveAdv;
+import frc.robot.sensors.laserCan;
 import frc.robot.subsystems.AlgaeIntakeSubsystem;
 import frc.robot.subsystems.ArmSubsystem;
 import frc.robot.subsystems.ElevatorSubsystem;
@@ -45,7 +47,9 @@ public class RobotContainer
   private final ElevatorSubsystem elevator = new ElevatorSubsystem();
   private final ArmSubsystem arm = new ArmSubsystem();
   private final CoralIntakeSubsystem coralIntake = new CoralIntakeSubsystem();
-  private final AlgaeIntakeSubsystem algaeIntake = new AlgaeIntakeSubsystem();
+  private final laserCan laserCan = new laserCan();
+
+  //private final AlgaeIntakeSubsystem algaeIntake = new AlgaeIntakeSubsystem();
 
   // Applies deadbands and inverts controls because joysticks
   // are back-right positive while robot
@@ -134,60 +138,68 @@ public class RobotContainer
   Command driveFieldOrientedAnglularVelocitySim = drivebase.driveFieldOriented(driveAngularVelocitySim);
   Command driveSetpointGenSim = drivebase.driveWithSetpointGeneratorFieldRelative(driveDirectAngleSim);
 
-
-  // Other than when the elevator is at its down position the arm should always be upwards, and 
-  // for now lets add a 2 second delay between the arm reaching its point and the elevator moving.
   SequentialCommandGroup positionOne = new SequentialCommandGroup(
-    new ArmPositionCommand(arm, ArmConstants.POS_UP)
-    //new ElevatorPositionCommand(elevator, ElevatorConstants.POS_ONE)
+    // new ArmPositionCommand(arm, ArmConstants.POS_UP)
+    new ElevatorPositionCommand(elevator, this, ElevatorConstants.POS_ONE)
   );
   SequentialCommandGroup positionTwo = new SequentialCommandGroup(
-    new ElevatorPositionCommand(elevator, ElevatorConstants.POS_TWO)
+    new ElevatorPositionCommand(elevator, this, ElevatorConstants.POS_TWO)
     //new ArmPositionCommand(arm, ArmConstants.POS_MID)
   );
   SequentialCommandGroup positionThree = new SequentialCommandGroup(
-    new ElevatorPositionCommand(elevator, ElevatorConstants.POS_THREE)
+    new ElevatorPositionCommand(elevator, this, ElevatorConstants.POS_THREE)
     //new ArmPositionCommand(arm, ArmConstants.POS_DOWN)
   );
   SequentialCommandGroup positionFour = new SequentialCommandGroup(
-    new ElevatorPositionCommand(elevator, ElevatorConstants.POS_FOUR)
+    new ElevatorPositionCommand(elevator, this, ElevatorConstants.POS_FOUR)
     //new ArmPositionCommand(arm, ArmConstants.POS_DOWN)
+  );
+
+  SequentialCommandGroup fullIntake = new SequentialCommandGroup(
+    new ElevatorPositionCommand(elevator, this, ElevatorConstants.POS_ONE),
+    new CoralIntakeCommand(coralIntake, this).andThen(coralIntake.lock())
+  );
+
+  SequentialCommandGroup fullOuttake = new SequentialCommandGroup(
+    new CoralOuttakeCommand(coralIntake, this).andThen(coralIntake.lock()),
+    new WaitCommand(0.5),
+    new ElevatorPositionCommand(elevator, this, ElevatorConstants.POS_ONE)
   );
 
   public RobotContainer()
   { 
     DriverStation.silenceJoystickConnectionWarning(true);
     NamedCommands.registerCommand("test", Commands.print("Hello World!"));
+    NamedCommands.registerCommand("distance", Commands.print("distance: "+getLaserCan().getDistance()));
 
     // Register all named commands for auto and teleop
-    NamedCommands.registerCommand("elevatorPos0", new ElevatorPositionCommand(elevator, 0));
-    NamedCommands.registerCommand("elevatorPos1", new ElevatorPositionCommand(elevator, ElevatorConstants.POS_ONE));
-    NamedCommands.registerCommand("elevatorPos2", new ElevatorPositionCommand(elevator, ElevatorConstants.POS_TWO));
-    NamedCommands.registerCommand("elevatorPos3", new ElevatorPositionCommand(elevator, ElevatorConstants.POS_THREE));
-    NamedCommands.registerCommand("elevatorPos4", new ElevatorPositionCommand(elevator, ElevatorConstants.POS_FOUR));
+    NamedCommands.registerCommand("elevatorPos1", new ElevatorPositionCommand(elevator, this, ElevatorConstants.POS_ONE));
+    NamedCommands.registerCommand("elevatorPos2", new ElevatorPositionCommand(elevator, this, ElevatorConstants.POS_TWO));
+    NamedCommands.registerCommand("elevatorPos3", new ElevatorPositionCommand(elevator, this, ElevatorConstants.POS_THREE));
+    NamedCommands.registerCommand("elevatorPos4", new ElevatorPositionCommand(elevator, this, ElevatorConstants.POS_FOUR));
 
     NamedCommands.registerCommand("armPosUp", new ArmPositionCommand(arm, ArmConstants.POS_UP));
     NamedCommands.registerCommand("armPosDown", new ArmPositionCommand(arm, ArmConstants.POS_DOWN));
 
-    NamedCommands.registerCommand("coralOuttakeWithLimit", new CoralOuttakeCommand(coralIntake).andThen(coralIntake.lock()));
-    NamedCommands.registerCommand("coralIntakeWithLimit", new CoralIntakeCommand(coralIntake).andThen(coralIntake.lock()));
+    NamedCommands.registerCommand("coralOuttakeWithLimit", new CoralOuttakeCommand(coralIntake, this).andThen(coralIntake.lock()));
+    NamedCommands.registerCommand("coralIntakeWithLimit", new CoralIntakeCommand(coralIntake, this).andThen(coralIntake.lock()));
     NamedCommands.registerCommand("coralIntakeForward", coralIntake.forward());
     NamedCommands.registerCommand("coralIntakeReverse", coralIntake.reverse());
     NamedCommands.registerCommand("coralIntakeLock", coralIntake.lock());
 
-    NamedCommands.registerCommand("algaeIntakeForward", algaeIntake.forward());
-    NamedCommands.registerCommand("algaeIntakeReverse", algaeIntake.reverse());
-    NamedCommands.registerCommand("algaeIntakeLock", algaeIntake.lock());
+    //NamedCommands.registerCommand("algaeIntakeForward", algaeIntake.forward());
+    //NamedCommands.registerCommand("algaeIntakeReverse", algaeIntake.reverse());
+    //NamedCommands.registerCommand("algaeIntakeLock", algaeIntake.lock());
 
-    // Configure the trigger bindings
+    // Configure the trigger bindings and auto chooser
     
     autoChooser = AutoBuilder.buildAutoChooser();
     SmartDashboard.putData("Auto Mode", autoChooser);
     configureDriverAndOperator();
-    //configureBindingsDebug();
+    // configureBindingsTest();
   }
 
-  private void configureBindingsDebug()
+  private void configureBindingsTest()
   {
     // (Condition) ? Return-On-True : Return-on-False
     drivebase.setDefaultCommand(!RobotBase.isSimulation() ?
@@ -230,19 +242,23 @@ public class RobotContainer
     // ---------------------------------------------------------------------------------------------------------------------------
     // ---------------------------------------------------- Operator Controls ----------------------------------------------------
     // ---------------------------------------------------------------------------------------------------------------------------
+    
+    operatorXbox.a().onTrue(fullIntake);
+    operatorXbox.b().onTrue(fullOuttake);
+    // operatorXbox.a().onTrue(NamedCommands.getCommand("coralIntakeWithLimit")); 
+    // operatorXbox.b().onTrue(NamedCommands.getCommand("coralOuttakeWithLimit")); 
+    // operatorXbox.x().onTrue(NamedCommands.getCommand("armPosDown"));
+    // operatorXbox.y().onTrue(NamedCommands.getCommand("armPosUp"));
+    operatorXbox.y().onTrue(NamedCommands.getCommand("distance"));
 
-    operatorXbox.a().onTrue(NamedCommands.getCommand("coralIntakeWithLimit")); 
-    operatorXbox.b().onTrue(NamedCommands.getCommand("coralOuttakeWithLimit")); 
-    operatorXbox.x().onTrue(NamedCommands.getCommand("armPosDown"));
-    operatorXbox.y().onTrue(NamedCommands.getCommand("armPosUp"));
 
     operatorXbox.pov(0).onTrue(positionOne);
     operatorXbox.pov(90).onTrue(positionTwo);
     operatorXbox.pov(180).onTrue(positionThree);
     operatorXbox.pov(270).onTrue(positionFour);
 
-    operatorXbox.leftTrigger().onTrue(NamedCommands.getCommand("algaeIntakeForward")).onFalse(NamedCommands.getCommand("algaeIntakeLock"));
-    operatorXbox.leftBumper().onTrue(NamedCommands.getCommand("algaeIntakeReverse")).onFalse(NamedCommands.getCommand("algaeIntakeLock"));
+    //operatorXbox.leftTrigger().onTrue(NamedCommands.getCommand("algaeIntakeForward")).onFalse(NamedCommands.getCommand("algaeIntakeLock"));
+    //operatorXbox.leftBumper().onTrue(NamedCommands.getCommand("algaeIntakeReverse")).onFalse(NamedCommands.getCommand("algaeIntakeLock"));
     operatorXbox.rightBumper().onTrue(NamedCommands.getCommand("coralIntakeReverse")).onFalse(NamedCommands.getCommand("coralIntakeLock"));
     operatorXbox.rightTrigger().onTrue(NamedCommands.getCommand("coralIntakeForward")).onFalse(NamedCommands.getCommand("coralIntakeLock"));
   }
@@ -260,24 +276,12 @@ public class RobotContainer
     return autoChooser.getSelected();
   }
 
+  public laserCan getLaserCan(){
+    return laserCan;
+  }
+
   public void setMotorBrake(boolean brake)
   {
     drivebase.setMotorBrake(brake);
-  }
-
-  public ElevatorSubsystem getElevator(){
-    return elevator;
-  }
-
-  public ArmSubsystem getArm(){
-    return arm;
-  }
-
-  public CoralIntakeSubsystem getCoralIntake(){
-    return coralIntake;
-  }
-
-  public AlgaeIntakeSubsystem getAlgaeIntake(){
-    return algaeIntake;
   }
 }

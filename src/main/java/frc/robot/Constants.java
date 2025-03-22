@@ -70,11 +70,12 @@ public final class Constants
     public static final int LEADER = 20;
     public static final int FOLLOWER = 21;
 
-    public static final double POS_ZERO = 1;
-    public static final double POS_ONE = 1;
+    // public static final double POS_ZERO = 1;
+    public static final double POS_ONE = 0;
     public static final double POS_TWO = 4;
     public static final double POS_THREE = 13;
-    public static final double POS_FOUR = 26;
+    public static final double POS_FOUR = 26.5;
+    public static final double POS_DEFAULT = POS_ONE;
 
     public static final double TOLERANCE = 2;
     public static final PIDConstants PID_CONSTANTS = new PIDConstants(0.2,0.0,0.5);
@@ -87,9 +88,9 @@ public final class Constants
   {
     public static final int PIVOT = 30;
 
-    public static final double POS_UP = -44;
-    public static final double POS_MID = 29;
-    public static final double POS_DOWN = -28;
+    public static final double POS_UP = -34;
+    public static final double POS_DOWN = -10;
+    public static final double POS_DEFAULT = POS_UP;
 
     public static final double TOLERANCE = 4;
     public static final PIDConstants PID_CONSTANTS = new PIDConstants(0.03,0,0.03,0);
@@ -105,7 +106,7 @@ public final class Constants
     public static final int LASER_CAN = 24;
 
     public static final int LIMIT = 0;
-    public static final double THRESHOLD_MM = 8;
+    public static final double THRESHOLD_MM = 20;
 
     public static final double HIGH_SPEED = 0.3; 
     public static final double SLOW_SPEED = 0.1; 

@@ -53,7 +53,7 @@ public class ElevatorSubsystem extends SubsystemBase{
         .follow(ElevatorConstants.LEADER, false);
     m_follower.configure(followerMotorConfig, ResetMode.kResetSafeParameters, PersistMode.kNoPersistParameters);
 
-    closedLoopController.setReference(ElevatorConstants.POS_ZERO, ControlType.kPosition, ClosedLoopSlot.kSlot0);
+    closedLoopController.setReference(ElevatorConstants.POS_DEFAULT, ControlType.kPosition, ClosedLoopSlot.kSlot0);
   }
 
   public void setPosition(Double targetPosition){
