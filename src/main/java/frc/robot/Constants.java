@@ -30,7 +30,7 @@ public final class Constants
   public static final class AutonConstants
   {
     public static final PIDConstants TRANSLATION_PID = new PIDConstants(6, 0, 0); // 5.5
-    public static final PIDConstants ANGLE_PID       = new PIDConstants(5, 0, 0);
+    public static final PIDConstants ANGLE_PID       = new PIDConstants(5.5, 0, 0);
   }
 
   public static final class DrivebaseConstants
@@ -74,7 +74,7 @@ public final class Constants
     public static final double POS_ONE = 0;
     public static final double POS_TWO = 4;
     public static final double POS_THREE = 13;
-    public static final double POS_FOUR = 26;
+    public static final double POS_FOUR = 26.2;
     public static final double POS_DEFAULT = POS_ONE;
 
     public static final double TOLERANCE = 2;
@@ -107,7 +107,7 @@ public final class Constants
 
     public static final double THRESHOLD_MM = 12;
 
-    public static final double HIGH_SPEED = 0.2; // 0.3
+    public static final double HIGH_SPEED = 0.22; // 0.3
     public static final double SLOW_SPEED = 0.1; 
   }
 

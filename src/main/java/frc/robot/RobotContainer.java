@@ -161,8 +161,8 @@ public class RobotContainer
   );
 
   SequentialCommandGroup fullOuttake = new SequentialCommandGroup(
-    new CoralOuttakeCommand(coralIntake, this).andThen(coralIntake.lock()),
-    new WaitCommand(0.5),
+    new CoralOuttakeCommand(coralIntake, this).andThen(new WaitCommand(1)).andThen(coralIntake.lock()),
+    new WaitCommand(0.25),
     new ElevatorPositionCommand(elevator, this, ElevatorConstants.POS_ONE)
   );
 
