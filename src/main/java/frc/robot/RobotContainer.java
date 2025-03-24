@@ -6,7 +6,6 @@ package frc.robot;
 
 import com.pathplanner.lib.auto.AutoBuilder;
 import com.pathplanner.lib.auto.NamedCommands;
-import edu.wpi.first.math.MathUtil;
 import edu.wpi.first.wpilibj.DriverStation;
 import edu.wpi.first.wpilibj.Filesystem;
 import edu.wpi.first.wpilibj.RobotBase;
@@ -24,9 +23,7 @@ import frc.robot.commands.ArmPositionCommand;
 import frc.robot.commands.CoralIntakeCommand;
 import frc.robot.commands.CoralOuttakeCommand;
 import frc.robot.commands.ElevatorPositionCommand;
-import frc.robot.commands.swervedrive.drivebase.AbsoluteDriveAdv;
 import frc.robot.sensors.laserCan;
-import frc.robot.subsystems.AlgaeIntakeSubsystem;
 import frc.robot.subsystems.ArmSubsystem;
 import frc.robot.subsystems.ElevatorSubsystem;
 import frc.robot.subsystems.CoralIntakeSubsystem;
@@ -58,17 +55,6 @@ public class RobotContainer
   // right stick controls the rotational velocity 
   // buttons are quick rotation positions to different ways to face
   // WARNING: default buttons are on the same buttons as the ones defined in configureBindings
-  AbsoluteDriveAdv closedAbsoluteDriveAdv = new AbsoluteDriveAdv(drivebase,
-                                                                 () -> -MathUtil.applyDeadband(driverXbox.getLeftY(),
-                                                                                               OperatorConstants.LEFT_Y_DEADBAND),
-                                                                 () -> -MathUtil.applyDeadband(driverXbox.getLeftX(),
-                                                                                               OperatorConstants.DEADBAND),
-                                                                 () -> -MathUtil.applyDeadband(driverXbox.getRightX(),
-                                                                                               OperatorConstants.RIGHT_X_DEADBAND),
-                                                                 driverXbox.getHID()::getYButtonPressed,
-                                                                 driverXbox.getHID()::getAButtonPressed,
-                                                                 driverXbox.getHID()::getXButtonPressed,
-                                                                 driverXbox.getHID()::getBButtonPressed);
 
   /**
    * Converts driver input into a field-relative ChassisSpeeds that is controlled by angular velocity.
@@ -229,15 +215,15 @@ public class RobotContainer
     // ----------------------------------------------------- Driver Controls -----------------------------------------------------
     // ---------------------------------------------------------------------------------------------------------------------------
 
+    drivebase.setDefaultCommand(!RobotBase.isSimulation() ?
+      driveFieldOrientedAnglularVelocity :
+      driveFieldOrientedAnglularVelocitySim);
+
     driverXbox.a().and(driverXbox.leftBumper()).onTrue(drivebase.autoAlignReef(false));
     driverXbox.a().and(driverXbox.rightBumper()).onTrue(drivebase.autoAlignReef(true));
     driverXbox.b().onTrue(Commands.none());
     driverXbox.x().whileTrue(Commands.runOnce(drivebase::lock, drivebase).repeatedly());
     driverXbox.y().onTrue((Commands.runOnce(drivebase::zeroGyro)));
-
-    drivebase.setDefaultCommand(!RobotBase.isSimulation() ?
-      driveFieldOrientedAnglularVelocity :
-      driveFieldOrientedAnglularVelocitySim);
 
     // ---------------------------------------------------------------------------------------------------------------------------
     // ---------------------------------------------------- Operator Controls ----------------------------------------------------
@@ -245,19 +231,12 @@ public class RobotContainer
     
     operatorXbox.a().onTrue(fullIntake);
     operatorXbox.b().onTrue(fullOuttake);
-    // operatorXbox.a().onTrue(NamedCommands.getCommand("coralIntakeWithLimit")); 
-    // operatorXbox.b().onTrue(NamedCommands.getCommand("coralOuttakeWithLimit")); 
-    // operatorXbox.x().onTrue(NamedCommands.getCommand("armPosDown"));
-    // operatorXbox.y().onTrue(NamedCommands.getCommand("armPosUp"));
-    // operatorXbox.y().onTrue(NamedCommands.getCommand("distance"));
 
     operatorXbox.pov(0).onTrue(positionOne);
     operatorXbox.pov(90).onTrue(positionTwo);
     operatorXbox.pov(180).onTrue(positionThree);
     operatorXbox.pov(270).onTrue(positionFour);
 
-    //operatorXbox.leftTrigger().onTrue(NamedCommands.getCommand("algaeIntakeForward")).onFalse(NamedCommands.getCommand("algaeIntakeLock"));
-    //operatorXbox.leftBumper().onTrue(NamedCommands.getCommand("algaeIntakeReverse")).onFalse(NamedCommands.getCommand("algaeIntakeLock"));
     operatorXbox.rightBumper().onTrue(NamedCommands.getCommand("coralIntakeReverse")).onFalse(NamedCommands.getCommand("coralIntakeLock"));
     operatorXbox.rightTrigger().onTrue(NamedCommands.getCommand("coralIntakeForward")).onFalse(NamedCommands.getCommand("coralIntakeLock"));
   }
